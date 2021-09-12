@@ -9,14 +9,12 @@ import {
   TouchableOpacity,
   KeyboardAvoidingView,
 } from "react-native";
-
-import { Button } from "react-native-elements";
-import { auth, db } from "../firebase/config";
 import { AntDesign } from "@expo/vector-icons";
-import {
-  StyledButtonPrimary,
-  StyledTextInput,
-} from "../styles/styledComponents";
+
+import { auth, db } from "../firebase/config";
+import HeaderBackButton from "../components/HeaderBackButton";
+import StyledTextInput from "../components/StyledTextInput";
+import ButtonPrimary from "../components/ButtonPrimary";
 
 const RegisterScreen = ({ navigation }) => {
   useLayoutEffect(() => {
@@ -29,23 +27,7 @@ const RegisterScreen = ({ navigation }) => {
       visible: false,
       headerTransparent: true,
       headerTitleStyle: { color: "white" },
-      headerLeft: () => (
-        <View style={{ marginLeft: 15, alignContent: "center" }}>
-          <TouchableOpacity
-            activeOpacity={0.5}
-            style={{
-              backgroundColor: "#f1f2f6",
-              borderRadius: 100,
-              padding: 5,
-              justifyContent: "center",
-              alignItems: "center",
-            }}
-            onPress={() => navigation.replace("Login")}
-          >
-            <AntDesign name="left" size={20} color="black" />
-          </TouchableOpacity>
-        </View>
-      ),
+      headerLeft: () => <HeaderBackButton navigateTo="Login" />,
     });
   }, [navigation]);
 
@@ -115,9 +97,9 @@ const RegisterScreen = ({ navigation }) => {
           secureTextEntry
         />
 
-        <StyledButtonPrimary onPress={registerUser}>
+        <ButtonPrimary onPress={registerUser}>
           <Text style={{ color: "white", fontSize: 15 }}>Create Account</Text>
-        </StyledButtonPrimary>
+        </ButtonPrimary>
       </View>
     </KeyboardAvoidingView>
   );

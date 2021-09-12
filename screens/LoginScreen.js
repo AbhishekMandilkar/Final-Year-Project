@@ -11,10 +11,9 @@ import {
 } from "react-native";
 
 import { auth } from "../firebase/config";
-import {
-  StyledTextInput,
-  StyledButtonPrimary,
-} from "../styles/StyledComponents";
+
+import StyledTextInput from "../components/StyledTextInput";
+import ButtonPrimary from "../components/ButtonPrimary";
 
 const LoginScreen = ({ navigation }) => {
   //hide header
@@ -98,9 +97,9 @@ const LoginScreen = ({ navigation }) => {
           }}
         />
 
-        <StyledButtonPrimary onPress={signIn}>
+        <ButtonPrimary onPress={signIn}>
           <Text style={{ color: "white" }}>Login</Text>
-        </StyledButtonPrimary>
+        </ButtonPrimary>
         <TouchableOpacity
           style={{ margin: 25 }}
           onPress={() => {

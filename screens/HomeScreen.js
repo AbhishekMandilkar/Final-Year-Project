@@ -3,6 +3,7 @@ import { View, Text, SafeAreaView } from "react-native";
 import { db, auth } from "../firebase/config";
 import { SimpleLineIcons } from "@expo/vector-icons";
 import { Button } from "react-native-elements";
+import { ButtonPrimary } from "../components/ButtonPrimary";
 
 const HomeScreen = ({ navigation }) => {
   useLayoutEffect(() => {
@@ -45,6 +46,9 @@ const HomeScreen = ({ navigation }) => {
         title="Hotels"
         onPress={() => navigation.navigate("HotelSelection")}
       />
+      <ButtonPrimary>
+        <Text>Hi</Text>
+      </ButtonPrimary>
     </SafeAreaView>
   );
 };
