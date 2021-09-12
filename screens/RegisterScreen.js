@@ -13,7 +13,10 @@ import {
 import { Button } from "react-native-elements";
 import { auth, db } from "../firebase/config";
 import { AntDesign } from "@expo/vector-icons";
-import { customStyledComponent } from "../styles/styledComponents";
+import {
+  StyledButtonPrimary,
+  StyledTextInput,
+} from "../styles/styledComponents";
 
 const RegisterScreen = ({ navigation }) => {
   useLayoutEffect(() => {
@@ -30,9 +33,16 @@ const RegisterScreen = ({ navigation }) => {
         <View style={{ marginLeft: 15, alignContent: "center" }}>
           <TouchableOpacity
             activeOpacity={0.5}
+            style={{
+              backgroundColor: "#f1f2f6",
+              borderRadius: 100,
+              padding: 5,
+              justifyContent: "center",
+              alignItems: "center",
+            }}
             onPress={() => navigation.replace("Login")}
           >
-            <AntDesign name="left" size={24} color="black" />
+            <AntDesign name="left" size={20} color="black" />
           </TouchableOpacity>
         </View>
       ),
@@ -67,7 +77,7 @@ const RegisterScreen = ({ navigation }) => {
       style={{
         backgroundColor: "white",
         flex: 1,
-        alignItems: "center",
+        // alignItems: "center",
         justifyContent: "center",
       }}
     >
@@ -84,15 +94,13 @@ const RegisterScreen = ({ navigation }) => {
         />
       </View>
       <View style={styles.formContainer}>
-        <TextInput
-          style={customStyledComponent.styledTextInput}
+        <StyledTextInput
           autoFocus
           type="text"
           placeholder="Enter your Name"
           onChangeText={(text) => setUsername(text)}
         />
-        <TextInput
-          style={customStyledComponent.styledTextInput}
+        <StyledTextInput
           type="email"
           placeholder="Enter your email address"
           value={email}
@@ -100,23 +108,16 @@ const RegisterScreen = ({ navigation }) => {
             setEmail(text);
           }}
         />
-        <TextInput
-          style={customStyledComponent.styledTextInput}
+        <StyledTextInput
           placeholder="Set a password"
           value={password}
           onChangeText={(text) => setPassword(text)}
           secureTextEntry
         />
 
-        <TouchableOpacity
-          style={[
-            customStyledComponent.styledButton,
-            { backgroundColor: "#2B40CA", elevation: 7 },
-          ]}
-          onPress={registerUser}
-        >
+        <StyledButtonPrimary onPress={registerUser}>
           <Text style={{ color: "white", fontSize: 15 }}>Create Account</Text>
-        </TouchableOpacity>
+        </StyledButtonPrimary>
       </View>
     </KeyboardAvoidingView>
   );
@@ -128,5 +129,8 @@ const styles = StyleSheet.create({
   formContainer: {
     justifyContent: "center",
     alignItems: "center",
+    // backgroundColor: "green",
+    height: 300,
+    paddingTop: 60,
   },
 });

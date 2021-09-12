@@ -11,7 +11,10 @@ import {
 } from "react-native";
 
 import { auth } from "../firebase/config";
-import { customStyledComponent } from "../styles/styledComponents";
+import {
+  StyledTextInput,
+  StyledButtonPrimary,
+} from "../styles/StyledComponents";
 
 const LoginScreen = ({ navigation }) => {
   //hide header
@@ -42,7 +45,7 @@ const LoginScreen = ({ navigation }) => {
   return (
     <KeyboardAvoidingView
       behavior="position"
-      style={{ backgroundColor: "white", flexDirection: "column" }}
+      style={{ flex: 1, backgroundColor: "white" }}
     >
       <View
         style={{
@@ -63,12 +66,19 @@ const LoginScreen = ({ navigation }) => {
           alignItems: "center",
         }}
       >
-        <Text style={{ color: "#2B40CA", fontWeight: "bold", fontSize: 25 }}>
+        <Text
+          style={{
+            color: "#2B40CA",
+            fontWeight: "bold",
+            fontSize: 28,
+            fontFamily: "notoserif",
+          }}
+        >
           Hello Traveler👋
         </Text>
       </View>
       <View style={styles.formContainer}>
-        <TextInput
+        <StyledTextInput
           autoFocus
           mode="outlined"
           label="Email"
@@ -78,33 +88,19 @@ const LoginScreen = ({ navigation }) => {
           onChangeText={(text) => {
             setEmail(text);
           }}
-          style={customStyledComponent.styledTextInput}
         />
-        <TextInput
-          style={styles.textInput}
-          mode="outlined"
-          label="Password"
+        <StyledTextInput
           placeholder="Password"
           secureTextEntry
           value={password}
           onChangeText={(text) => {
             setPassword(text);
           }}
-          style={customStyledComponent.styledTextInput}
         />
-        <TouchableOpacity
-          title="Login"
-          onPress={signIn}
-          style={[
-            customStyledComponent.styledButton,
-            {
-              backgroundColor: "#2B40CA",
-              elevation: 7,
-            },
-          ]}
-        >
-          <Text style={{ color: "white", fontSize: 15 }}>Login</Text>
-        </TouchableOpacity>
+
+        <StyledButtonPrimary onPress={signIn}>
+          <Text style={{ color: "white" }}>Login</Text>
+        </StyledButtonPrimary>
         <TouchableOpacity
           style={{ margin: 25 }}
           onPress={() => {
@@ -124,8 +120,9 @@ export default LoginScreen;
 
 const styles = StyleSheet.create({
   formContainer: {
-    padding: 30,
-    height: 300,
+    padding: 40,
     alignItems: "center",
+    // backgroundColor: "green",
+    justifyContent: "center",
   },
 });
