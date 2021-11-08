@@ -1,55 +1,50 @@
 import React, { useLayoutEffect, useState, useEffect } from "react";
-import { View, Text, SafeAreaView } from "react-native";
-import { db, auth } from "../firebase/config";
+import { View, Text, SafeAreaView, TouchableOpacity } from "react-native";
+import { db, auth } from "../utils/firebase/config.js";
 import { SimpleLineIcons } from "@expo/vector-icons";
-import { Button } from "react-native-elements";
-import { ButtonPrimary } from "../components/ButtonPrimary";
+import Wrapper from "../components/Wrapper.styled.js";
+import { EvilIcons } from "@expo/vector-icons";
+import StyledText from "../components/Text.styled.js";
+import CurrentTripCard from "../components/CurrentTripCard.js";
+import MenuOptions from "../components/MenuOptions.js";
 
 const HomeScreen = ({ navigation }) => {
   useLayoutEffect(() => {
     navigation.setOptions({
-      headerLeft: () => (
-        <SimpleLineIcons
-          onPress={signUserOut}
-          name="logout"
-          size={24}
-          color="black"
-        />
+      headerRight: () => (
+        <TouchableOpacity
+          style={{ padding: 7 }}
+          onPress={() => navigation.navigate("Login")}
+        >
+          <EvilIcons name="user" size={45} color="black" />
+        </TouchableOpacity>
       ),
-      // headerTransparent: true,
+      headerTitle: "",
     });
   }, [navigation]);
 
-  const name = auth.currentUser.displayName;
-
-  const signUserOut = () => {
-    auth
-      .signOut()
-      .then(() => {
-        console.log("user signed out");
-        navigation.replace("Login");
-      })
-      .catch((err) => {
-        console.log(err);
-      });
-  };
+  // const signUserOut = () => {
+  //   auth
+  //     .signOut()
+  //     .then(() => {
+  //       console.log("user signed out");
+  //       navigation.replace("Login");
+  //     })
+  //     .catch((err) => {
+  //       console.log(err);
+  //     });
+  // };
 
   return (
-    <SafeAreaView
-      style={{ paddingTop: Platform.OS === "android" ? 25 : 0, flex: 1 }}
-    >
+    <Wrapper homeScreen style={{ paddingHorizontal: 20 }}>
       <View>
-        <Text>HI from {name}</Text>
+        <StyledText family="Poppins" weight="medium" style={{ fontSize: 24 }}>
+          Hi Abhishek
+        </StyledText>
+        <CurrentTripCard />
+        <MenuOptions />
       </View>
-      <Button title=" NewTrip" onPress={() => navigation.navigate("NewTrip")} />
-      <Button
-        title="Hotels"
-        onPress={() => navigation.navigate("HotelSelection")}
-      />
-      <ButtonPrimary>
-        <Text>Hi</Text>
-      </ButtonPrimary>
-    </SafeAreaView>
+    </Wrapper>
   );
 };
 

@@ -1,42 +1,32 @@
 import React, { useLayoutEffect, useState, useEffect } from "react";
 import {
   View,
-  TextInput,
+  Image,
   Text,
-  TouchableOpacity,
+  StatusBar,
+  Dimensions,
   KeyboardAvoidingView,
 } from "react-native";
-import { AntDesign, Ionicons } from "@expo/vector-icons";
 
-import { FAB, Button, Slider } from "react-native-elements";
+var screenWidth = Dimensions.get("window").width;
+
+import HeaderBackButton from "../components/HeaderBackButton";
+
+import FAB from "../components/FAB";
+
 //test
-import { auth, db } from "../firebase/config";
+import { auth, db } from "../utils/firebase/config.js";
+import Wrapper from "../components/Wrapper.styled";
+import StyledText from "../components/Text.styled";
+import StyledTextInput from "../components/TextInput.styled";
+import BtnPrimary from "../components/BtnPrimary";
 
 const NewTripScreen = ({ navigation }) => {
   //customize header
   useLayoutEffect(() => {
     navigation.setOptions({
-      // headerTransparent: true,
-      headerLeft: () => (
-        <View style={{ marginLeft: 15, alignContent: "center" }}>
-          <TouchableOpacity
-            activeOpacity={0.5}
-            onPress={() => {
-              auth
-                .signOut()
-                .then(() => {
-                  console.log("user signed out");
-                  navigation.replace("Login");
-                })
-                .catch((err) => {
-                  console.log(err);
-                });
-            }}
-          >
-            <AntDesign name="left" size={24} color="black" />
-          </TouchableOpacity>
-        </View>
-      ),
+      headerTitle: "",
+      headerLeft: () => <HeaderBackButton navigateTo="Home" />,
     });
   }, [navigation]);
 
@@ -58,66 +48,41 @@ const NewTripScreen = ({ navigation }) => {
   const [noOfDays, setNoOfDays] = useState("");
 
   return (
-    <View
-      style={{
-        marginTop: Platform.OS === "android" ? 25 : 0,
-        flex: 1,
-        justifyContent: "flex-end",
-        backgroundColor: "red",
-      }}
-    >
-      {getStarted ? (
-        <KeyboardAvoidingView
-          style={{
-            padding: 25,
-            // height: 400,
-            backgroundColor: "white",
-            borderTopLeftRadius: 30,
-            borderTopRightRadius: 30,
-            justifyContent: "center",
-          }}
+    <Wrapper>
+      <View style={{ justifyContent: "center", alignItems: "center" }}>
+        <StyledText family="Poppins" weight="bold" style={{ fontSize: 36 }}>
+          Start a new trip!
+        </StyledText>
+        <StyledText
+          family="Poppins"
+          weight="medium"
+          style={{ color: "gray", fontSize: 16 }}
         >
-          <TextInput
-            placeholder="Enter your budget"
-            value={userBudget}
-            onChangeText={(text) => setUserBudget(text)}
-            keyboardType="number-pad"
-            autoFocus
-          />
-          <Text>Selct Number of Days</Text>
-          <TextInput
-            placeholder="Days"
-            value={noOfDays}
-            onChangeText={(text) => setNoOfDays(text)}
-            keyboardType="number-pad"
-          />
-
-          <Button title="Submit" onPress={setUserTripInfo} />
-        </KeyboardAvoidingView>
-      ) : (
-        <View
-          style={{
-            padding: 25,
-            // height: 400,
-            backgroundColor: "white",
-            borderTopLeftRadius: 30,
-            borderTopRightRadius: 30,
-            justifyContent: "center",
-            alignItems: "center",
-          }}
-        >
-          <Text style={{ fontSize: 32, padding: 20 }}>Get started</Text>
-          <FAB
-            size="large"
-            onPress={() => {
-              setGetStarted(true);
-            }}
-            color="blue"
-            icon={<Ionicons name="arrow-forward" size={24} color="white" />}
-          />
-        </View>
-      )}
-    </View>
+          Enter the following details
+        </StyledText>
+      </View>
+      <View style={{ width: "100%", paddingTop: 30, alignItems: "center" }}>
+        <Image
+          style={{ width: 250, height: 250, resizeMode: "contain" }}
+          source={require("../assets/vectors/NewTripVector.png")}
+        />
+      </View>
+      <View
+        style={{
+          justifyContent: "center",
+          alignItems: "center",
+          paddingVertical: 40,
+          width: "100%",
+          position: "absolute",
+          backgroundColor: "white",
+          bottom: 0,
+        }}
+      >
+        <StyledTextInput placeholder="Enter Budget" width={270} />
+        <StyledTextInput placeholder="Enter Number of Days" width={270} />
+        <BtnPrimary title="Get Started" handleClick={setUserTripInfo} />
+      </View>
+    </Wrapper>
   );
 };
 

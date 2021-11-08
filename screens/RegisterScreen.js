@@ -1,20 +1,11 @@
 import React, { useLayoutEffect, useState } from "react";
-import {
-  StyleSheet,
-  TextInput,
-  Text,
-  View,
-  SafeAreaView,
-  Image,
-  TouchableOpacity,
-  KeyboardAvoidingView,
-} from "react-native";
-import { AntDesign } from "@expo/vector-icons";
-
-import { auth, db } from "../firebase/config";
+import { StyleSheet, Text, View, KeyboardAvoidingView } from "react-native";
+import { auth, db } from "../utils/firebase/config.js";
 import HeaderBackButton from "../components/HeaderBackButton";
-import StyledTextInput from "../components/StyledTextInput";
-import ButtonPrimary from "../components/ButtonPrimary";
+import StyledTextInput from "../components/TextInput.styled.js";
+import Wrapper from "../components/Wrapper.styled.js";
+import StyledText from "../components/Text.styled.js";
+import BtnPrimary from "../components/BtnPrimary.js";
 
 const RegisterScreen = ({ navigation }) => {
   useLayoutEffect(() => {
@@ -25,14 +16,14 @@ const RegisterScreen = ({ navigation }) => {
         elevation: 0,
       },
       visible: false,
-      headerTransparent: true,
+      // headerTransparent: true,
       headerTitleStyle: { color: "white" },
       headerLeft: () => <HeaderBackButton navigateTo="Login" />,
     });
   }, [navigation]);
 
   const registerUser = () => {
-    console.log(email, password);
+    console.log("evokes");
     //register user to FB
     auth
       .createUserWithEmailAndPassword(email, password)
@@ -43,7 +34,7 @@ const RegisterScreen = ({ navigation }) => {
         });
         console.log(authUser.additionalUserInfo.isNewUser);
         //move user to set new trip
-        navigation.replace("NewTrip");
+        navigation.replace("Home");
       })
       .catch((error) => console.log(error.message));
   };
@@ -54,65 +45,35 @@ const RegisterScreen = ({ navigation }) => {
   const [username, setUsername] = useState("");
 
   return (
-    <KeyboardAvoidingView
-      behavior="padding"
-      style={{
-        backgroundColor: "white",
-        flex: 1,
-        // alignItems: "center",
-        justifyContent: "center",
-      }}
-    >
-      <View
-        style={{
-          flexDirection: "row",
-          justifyContent: "center",
-          alignItems: "center",
-        }}
-      >
-        <Image
-          source={require("./../assets/Vectors/RegistrationScreenVector.jpg")}
-          style={{ height: 300, width: 300 }}
-        />
-      </View>
-      <View style={styles.formContainer}>
-        <StyledTextInput
-          autoFocus
-          type="text"
-          placeholder="Enter your Name"
-          onChangeText={(text) => setUsername(text)}
-        />
-        <StyledTextInput
-          type="email"
-          placeholder="Enter your email address"
-          value={email}
-          onChangeText={(text) => {
-            setEmail(text);
-          }}
-        />
-        <StyledTextInput
-          placeholder="Set a password"
-          value={password}
-          onChangeText={(text) => setPassword(text)}
-          secureTextEntry
-        />
+    <Wrapper>
+      <View style={{ alignItems: "center", paddingVertical: 40 }}>
+        <View style={{ padding: 30 }}>
+          <StyledText family="Poppins" weight="bold" style={{ fontSize: 36 }}>
+            Get Started
+          </StyledText>
+          <StyledText family="Poppins" weight="light" style={{ fontSize: 16 }}>
+            Let's create your account
+          </StyledText>
+        </View>
 
-        <ButtonPrimary onPress={registerUser}>
-          <Text style={{ color: "white", fontSize: 15 }}>Create Account</Text>
-        </ButtonPrimary>
+        <StyledTextInput
+          placeholder="Name"
+          onChangeText={(text) => setUsername}
+          width={270}
+        />
+        <StyledTextInput
+          placeholder="Email"
+          onChangeText={(text) => setEmail(text)}
+          width={270}
+        />
+        <StyledTextInput
+          placeholder="Password"
+          onChangeText={(text) => setPassword(text)}
+          width={270}
+        />
+        <BtnPrimary title="Sign Up" handleClick={registerUser} width={270} />
       </View>
-    </KeyboardAvoidingView>
+    </Wrapper>
   );
 };
-
 export default RegisterScreen;
-
-const styles = StyleSheet.create({
-  formContainer: {
-    justifyContent: "center",
-    alignItems: "center",
-    // backgroundColor: "green",
-    height: 300,
-    paddingTop: 60,
-  },
-});

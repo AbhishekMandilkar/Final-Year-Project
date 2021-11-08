@@ -1,19 +1,11 @@
 import React, { useLayoutEffect, useState, useEffect } from "react";
-import {
-  Text,
-  View,
-  KeyboardAvoidingView,
-  StyleSheet,
-  TextInput,
-  TouchableOpacity,
-  Image,
-  Button,
-} from "react-native";
+import { View } from "react-native";
 
-import { auth } from "../firebase/config";
-
-import StyledTextInput from "../components/StyledTextInput";
-import ButtonPrimary from "../components/ButtonPrimary";
+import { auth } from "../utils/firebase/config.js";
+import Wrapper from "../components/Wrapper.styled.js";
+import BtnPrimary from "../components/BtnPrimary.js";
+import StyledText from "../components/Text.styled.js";
+import StyledTextInput from "../components/TextInput.styled.js";
 
 const LoginScreen = ({ navigation }) => {
   //hide header
@@ -25,14 +17,11 @@ const LoginScreen = ({ navigation }) => {
 
   //sign in user
   const signIn = () => {
+    console.log("evoked");
     auth
       .signInWithEmailAndPassword(email, password)
       .then((response) => {
-        if (response.additionalUserInfo.isNewUser === true) {
-          navigation.navigate("NewTrip");
-        } else {
-          navigation.replace("Home");
-        }
+        navigation.replace("Home");
       })
       .catch((err) => console.error(err));
   };
@@ -40,88 +29,67 @@ const LoginScreen = ({ navigation }) => {
   //states
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [showVector, setShowVector] = useState(true);
+  function handleVectors() {
+    setShowVector(false);
+  }
 
+  console.log(`Email:::: ${email} and Password:::: ${password}`);
   return (
-    <KeyboardAvoidingView
-      behavior="position"
-      style={{ flex: 1, backgroundColor: "white" }}
-    >
+    <Wrapper style={{ flex: 1, alignItems: "center" }}>
+      {/* <View style={{ paddingVertical: 80 }}>
+          <Image
+            source={require("../assets/vectors/LoginScreenVector.jpg")}
+            style={{ width: 350, height: 350 }}
+          />
+        </View>
+      */}
       <View
         style={{
-          paddingTop: 150,
-          justifyContent: "center",
+          flex: 1,
           alignItems: "center",
+          paddingVertical: 40,
         }}
       >
-        <Image
-          source={require("./../assets/Vectors/LoginScreenVector.jpg")}
-          style={{ height: 300, width: 300 }}
-        />
+        <View style={{ padding: 60 }}>
+          <StyledText family="Poppins" weight="bold" style={{ fontSize: 36 }}>
+            Let's sign you in
+          </StyledText>
+          <StyledText family="Poppins" style={{ fontSize: 24 }}>
+            Welcome Back
+          </StyledText>
+        </View>
+        <View style={{ alignItems: "center" }}>
+          <StyledText
+            family="Poppins"
+            style={{ paddingVertical: 10, fontSize: 15 }}
+          >
+            Don't have an account?
+            <StyledText
+              weight="bold"
+              onPress={() => navigation.navigate("Register")}
+            >
+              Register
+            </StyledText>
+          </StyledText>
+          <StyledTextInput
+            width={270}
+            placeholder="Email"
+            onChangeText={(text) => setEmail(text)}
+            onPressIn={handleVectors}
+          />
+          <StyledTextInput
+            width={270}
+            placeholder="Password"
+            secureTextEntry
+            onChangeText={(text) => setPassword(text)}
+            onFocus={handleVectors}
+          />
+          <BtnPrimary title="Sign In" handleClick={signIn} width={270} />
+        </View>
       </View>
-      <View
-        style={{
-          flexDirection: "row",
-          justifyContent: "center",
-          alignItems: "center",
-        }}
-      >
-        <Text
-          style={{
-            color: "#2B40CA",
-            fontWeight: "bold",
-            fontSize: 28,
-            fontFamily: "notoserif",
-          }}
-        >
-          Hello Traveler👋
-        </Text>
-      </View>
-      <View style={styles.formContainer}>
-        <StyledTextInput
-          autoFocus
-          mode="outlined"
-          label="Email"
-          type="email"
-          placeholder="Email"
-          value={email}
-          onChangeText={(text) => {
-            setEmail(text);
-          }}
-        />
-        <StyledTextInput
-          placeholder="Password"
-          secureTextEntry
-          value={password}
-          onChangeText={(text) => {
-            setPassword(text);
-          }}
-        />
-
-        <ButtonPrimary onPress={signIn}>
-          <Text style={{ color: "white" }}>Login</Text>
-        </ButtonPrimary>
-        <TouchableOpacity
-          style={{ margin: 25 }}
-          onPress={() => {
-            navigation.navigate("Register");
-          }}
-        >
-          <Text style={{ color: "black", fontSize: 15 }}>
-            New User? Create account
-          </Text>
-        </TouchableOpacity>
-      </View>
-    </KeyboardAvoidingView>
+    </Wrapper>
   );
 };
 
 export default LoginScreen;
-
-const styles = StyleSheet.create({
-  formContainer: {
-    padding: 40,
-    alignItems: "center",
-    // backgroundColor: "green",
-    justifyContent: "center",
-  },
-});
