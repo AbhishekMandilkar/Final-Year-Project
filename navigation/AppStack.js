@@ -2,7 +2,7 @@ import React from "react";
 import { View, Text } from "react-native";
 import { NavigationContainer } from "@react-navigation/native";
 import { createStackNavigator } from "@react-navigation/stack";
-import globalScreenOptions from "./navigation/GlobalNavOptions";
+import globalScreenOptions from "./GlobalNavOptions";
 import HomeScreen from "../screens/HomeScreen";
 import NewTripScreen from "../screens/NewTripScreen";
 import HotelRecommendationScreen from "../screens/HotelRecommendationScreen";

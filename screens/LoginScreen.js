@@ -20,9 +20,6 @@ const LoginScreen = ({ navigation }) => {
     console.log("evoked");
     auth
       .signInWithEmailAndPassword(email, password)
-      .then((response) => {
-        navigation.replace("Home");
-      })
       .catch((err) => console.error(err));
   };
 
@@ -34,7 +31,6 @@ const LoginScreen = ({ navigation }) => {
     setShowVector(false);
   }
 
-  console.log(`Email:::: ${email} and Password:::: ${password}`);
   return (
     <Wrapper style={{ flex: 1, alignItems: "center" }}>
       {/* <View style={{ paddingVertical: 80 }}>

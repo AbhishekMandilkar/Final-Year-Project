@@ -1,20 +1,47 @@
-import "react-native-gesture-handler";
-
-import React from "react";
+import React, { useEffect } from "react";
 import { NavigationContainer } from "@react-navigation/native";
-import { createStackNavigator } from "@react-navigation/stack";
+
 import Theme from "./utils/theme/theme";
 import { useFonts } from "expo-font";
-import globalScreenOptions from "./navigation/GlobalNavOptions";
 
 //navigators
 import AppStack from "./navigation/AppStack";
 import AuthStack from "./navigation/AuthStack";
+import { Provider, useSelector } from "react-redux";
+import { login, logout, selectUser } from "./features/userSlice";
+import { useDispatch } from "react-redux";
+import { auth } from "./utils/firebase/config";
+import { store } from "./app/store";
 
-const Stack = createStackNavigator();
+export default function AppWrapper() {
+  return (
+    <Provider store={store}>
+      <App />
+    </Provider>
+  );
+}
 
-export default function App() {
-  const user = null;
+function App() {
+  const user = useSelector(selectUser);
+  // console.log(user);
+  const dispatch = useDispatch();
+  useEffect(() => {
+    const unsubscribe = auth.onAuthStateChanged((userAuth) => {
+      if (userAuth) {
+        dispatch(
+          login({
+            uid: userAuth.uid,
+            email: userAuth.email,
+            displayName: userAuth.displayName,
+          })
+        );
+      } else {
+        dispatch(logout());
+      }
+    });
+    return unsubscribe;
+  }, []);
+
   const [loaded] = useFonts({
     Pop: require("./assets/fonts/Pop.ttf"),
     PopBold: require("./assets/fonts/Poppins-Bold.ttf"),
@@ -30,9 +57,14 @@ export default function App() {
   }
   return (
     <Theme>
-      <NavigationContainer>
-        {!user ? <AppStack /> : <AuthStack />}
-      </NavigationContainer>
+      <Provider store={store}>
+        <NavigationContainer>
+          {user ? <AppStack /> : <AuthStack />}
+        </NavigationContainer>
+      </Provider>
     </Theme>
   );
+}
+function NavigationStack() {
+  return <> </>;
 }

@@ -8,6 +8,10 @@ import StyledText from "../components/Text.styled.js";
 import BtnPrimary from "../components/BtnPrimary.js";
 
 const RegisterScreen = ({ navigation }) => {
+  //states
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [userName, setUsername] = useState("");
   useLayoutEffect(() => {
     //configure header
     navigation.setOptions({
@@ -16,7 +20,6 @@ const RegisterScreen = ({ navigation }) => {
         elevation: 0,
       },
       visible: false,
-      // headerTransparent: true,
       headerTitleStyle: { color: "white" },
       headerLeft: () => <HeaderBackButton navigateTo="Login" />,
     });
@@ -27,22 +30,15 @@ const RegisterScreen = ({ navigation }) => {
     //register user to FB
     auth
       .createUserWithEmailAndPassword(email, password)
-      .then((authUser) => {
-        //add displayName to authUser Object
-        authUser.user.updateProfile({
-          displayName: username,
+      .then((res) => {
+        const user = firebase.auth().currentUser;
+        return user.updateProfile({
+          displayName: userName,
         });
-        console.log(authUser.additionalUserInfo.isNewUser);
-        //move user to set new trip
-        navigation.replace("Home");
       })
+      .then((user) => console.log(user))
       .catch((error) => console.log(error.message));
   };
-
-  //states
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
-  const [username, setUsername] = useState("");
 
   return (
     <Wrapper>
@@ -58,7 +54,7 @@ const RegisterScreen = ({ navigation }) => {
 
         <StyledTextInput
           placeholder="Name"
-          onChangeText={(text) => setUsername}
+          onChangeText={(text) => setUsername(text)}
           width={270}
         />
         <StyledTextInput
