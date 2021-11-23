@@ -40,7 +40,7 @@ const HomeScreen = ({ navigation }) => {
     <Wrapper homeScreen style={{ paddingHorizontal: 20 }}>
       <View>
         <StyledText family="Poppins" weight="medium" style={{ fontSize: 24 }}>
-          Hi {user.displayName}
+          Hi {user?.displayName}
         </StyledText>
         <CurrentTripCard />
         <MenuOptions />

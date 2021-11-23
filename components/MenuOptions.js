@@ -22,6 +22,7 @@ const MenuOptions = () => {
       />
       <MenuItem
         name="Hotels"
+        goTo="HotelSelection"
         icon={<MaterialIcons name="hotel" size={24} color="gray" />}
       />
       <MenuItem />

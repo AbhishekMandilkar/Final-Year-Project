@@ -1,53 +1,55 @@
 import React, { useLayoutEffect, useState, useEffect } from "react";
-import { View, Text, ScrollView, TouchableOpacity } from "react-native";
-import { Rating } from "react-native-elements";
+import { View, FlatList, ActivityIndicator } from "react-native";
+import Wrapper from "../components/Wrapper.styled";
+import StyledText from "../components/Text.styled";
+import HeaderBackButton from "../components/HeaderBackButton";
 
-import { AntDesign } from "@expo/vector-icons";
+import HotelCard from "../components/HotelCard";
+import { db } from "../utils/firebase/config";
 
 const HotelRecommendationScreen = ({ navigation }) => {
+  //states
+  const [data, setData] = useState([]);
+  const [isLoading, setLoading] = useState(true);
   //header Customizations
   useLayoutEffect(() => {
     navigation.setOptions({
-      headerShown: true,
       title: "",
-
-      headerTransparent: false,
-      //   header: null,
       headerStyle: {
-        // position: "absolute",
-        backgroundColor: "white",
         elevation: 0,
       },
-      headerTitleStyle: { color: "white" },
-      headerLeft: () => (
-        <View style={{ marginLeft: 15, alignContent: "center" }}>
-          <TouchableOpacity
-            activeOpacity={0.5}
-            onPress={() => navigation.navigate("Home")}
-          >
-            <AntDesign name="left" size={24} color="black" />
-          </TouchableOpacity>
-        </View>
-      ),
+      headerLeft: () => <HeaderBackButton navigateTo="Home" />,
     });
   }, [navigation]);
+  //fetch hotels data
 
+  useEffect(() => {
+    db.collection("hotels").onSnapshot((snapshot) => {
+      setData(snapshot.docs.map((doc) => doc.data()));
+      setLoading(false);
+    });
+  }, []);
+  console.log(data);
   return (
-    <View>
-      <Text style={{ fontSize: 24, marginLeft: 8 }}>Recommended Hotels</Text>
-      <ScrollView style={{ marginTop: 15 }}>
-        <View>
-          <Image source={{ uri: "https://picsum.photos/400/300" }} />
-          <View>
-            <View>
-              <Text>Name</Text>
-              <Text>Cost</Text>
-            </View>
-            <Rating readonly imageSize={20} count={5} />
-          </View>
+    <Wrapper style={{ paddingHorizontal: 20 }}>
+      <View>
+        <StyledText family="Poppins" weight="medium" style={{ fontSize: 24 }}>
+          Hotels
+        </StyledText>
+      </View>
+      {isLoading ? (
+        <View style={{ flex: 1, marginTop: 250 }}>
+          <ActivityIndicator size="large" color="black" />
         </View>
-      </ScrollView>
-    </View>
+      ) : (
+        <FlatList
+          keyExtractor={(item, index) => index.toString()}
+          data={data}
+          renderItem={HotelCard}
+          ListEmptyComponent={<ActivityIndicator />}
+        />
+      )}
+    </Wrapper>
   );
 };
 

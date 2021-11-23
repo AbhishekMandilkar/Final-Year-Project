@@ -59,7 +59,8 @@ function App() {
     <Theme>
       <Provider store={store}>
         <NavigationContainer>
-          {user ? <AppStack /> : <AuthStack />}
+          {/* {!user ? <AppStack /> : <AuthStack />} */}
+          <AppStack />
         </NavigationContainer>
       </Provider>
     </Theme>
