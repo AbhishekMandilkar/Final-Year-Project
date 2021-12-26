@@ -29,7 +29,6 @@ const HotelRecommendationScreen = ({ navigation }) => {
       setLoading(false);
     });
   }, []);
-  console.log(data);
   return (
     <Wrapper style={{ paddingHorizontal: 20 }}>
       <View>
@@ -42,12 +41,7 @@ const HotelRecommendationScreen = ({ navigation }) => {
           <ActivityIndicator size="large" color="black" />
         </View>
       ) : (
-        <FlatList
-          keyExtractor={(item, index) => index.toString()}
-          data={data}
-          renderItem={HotelCard}
-          ListEmptyComponent={<ActivityIndicator />}
-        />
+        data.map((item, index) => <HotelCard item={item} key={item.id} />)
       )}
     </Wrapper>
   );

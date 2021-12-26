@@ -6,6 +6,7 @@ import globalScreenOptions from "./GlobalNavOptions";
 import HomeScreen from "../screens/HomeScreen";
 import NewTripScreen from "../screens/NewTripScreen";
 import HotelRecommendationScreen from "../screens/HotelRecommendationScreen";
+import HotelInfoScreen from "../screens/HotelInfoScreen";
 const Stack = createStackNavigator();
 const AppStack = () => {
   return (
@@ -20,6 +21,7 @@ const AppStack = () => {
         name="HotelSelection"
         component={HotelRecommendationScreen}
       />
+      <Stack.Screen name="HotelInfo" component={HotelInfoScreen} />
     </Stack.Navigator>
   );
 };

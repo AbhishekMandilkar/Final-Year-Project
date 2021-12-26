@@ -59,8 +59,8 @@ function App() {
     <Theme>
       <Provider store={store}>
         <NavigationContainer>
-          {/* {!user ? <AppStack /> : <AuthStack />} */}
-          <AppStack />
+          {!user ? <AppStack /> : <AuthStack />}
+          {/* <AppStack /> */}
         </NavigationContainer>
       </Provider>
     </Theme>

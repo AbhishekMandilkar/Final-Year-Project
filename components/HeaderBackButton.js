@@ -3,7 +3,7 @@ import { View, TouchableOpacity } from "react-native";
 import { AntDesign } from "@expo/vector-icons";
 import { useNavigation } from "@react-navigation/native";
 import styled from "styled-components";
-const HeaderBackButton = ({ navigateTo, NewTripScreen }) => {
+const HeaderBackButton = ({ navigateTo, NewTripScreen, goBack }) => {
   const navigation = useNavigation();
 
   return (
@@ -11,7 +11,9 @@ const HeaderBackButton = ({ navigateTo, NewTripScreen }) => {
     <StyledHeaderButton
       NewTripScreen={NewTripScreen}
       activeOpacity={0.5}
-      onPress={() => navigation.replace(navigateTo)}
+      onPress={() =>
+        navigateTo ? navigation.replace(navigateTo) : navigation.goBack()
+      }
     >
       <AntDesign name="left" size={20} color="black" />
     </StyledHeaderButton>

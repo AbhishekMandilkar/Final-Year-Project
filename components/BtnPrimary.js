@@ -2,8 +2,9 @@ import styled from "styled-components";
 
 const Button = styled.TouchableOpacity`
   padding: 15px;
-  width: ${(props) => (props.width ? `${props.width}px` : `270px`)};
-  border-radius: 20px;
+  width: ${(props) =>
+    props.width ? `${props.width}px` : props.fullWidth ? "100%" : `270px`};
+  border-radius: ${(props) => (props.radius ? `${props.radius}px` : `20px`)};
   display: flex;
   justify-content: center;
   align-items: center;
@@ -14,15 +15,35 @@ const Button = styled.TouchableOpacity`
 const ButtonTitle = styled.Text`
   color: #fff;
   font-size: 15px;
-  font-family: "Lato";
+  ${(props) => {
+    if (props.family === "Poppins") {
+      switch (props.weight) {
+        case "bold":
+          return `font-family:PopBold`;
+        case "medium":
+          return `font-family:PopMedium`;
+        default:
+          return `font-family:Pop`;
+      }
+    } else {
+      switch (props.weight) {
+        case "bold":
+          return `font-family:LatoBold`;
+        case "medium":
+          return `font-family:LatoMedium`;
+        default:
+          return `font-family:Lato`;
+      }
+    }
+  }};
 `;
 
 import React from "react";
 
-function BtnPrimary({ title, handleClick, width }) {
+function BtnPrimary({ title, handleClick, width, radius, font }) {
   return (
-    <Button onPress={handleClick} width={width}>
-      <ButtonTitle>{title}</ButtonTitle>
+    <Button onPress={handleClick} width={width} radius={radius} fullwidth>
+      <ButtonTitle font={font}>{title}</ButtonTitle>
     </Button>
   );
 }

@@ -1,12 +1,15 @@
 import React from "react";
 import { Image } from "react-native";
 import { View, Text } from "react-native";
+import { useNavigation } from "@react-navigation/native";
 import styled from "styled-components";
 import StyledText from "./Text.styled";
 import { AntDesign } from "@expo/vector-icons";
 const HotelCard = ({ item }) => {
+  const nav = useNavigation();
+
   return (
-    <CardContainer>
+    <CardContainer onPress={() => nav.navigate("HotelInfo", { data: item })}>
       <CardImage source={{ uri: item.imageUrl }} />
       <CardInfo>
         <Details>
