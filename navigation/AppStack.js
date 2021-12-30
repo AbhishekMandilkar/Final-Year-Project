@@ -7,6 +7,7 @@ import HomeScreen from "../screens/HomeScreen";
 import NewTripScreen from "../screens/NewTripScreen";
 import HotelRecommendationScreen from "../screens/HotelRecommendationScreen";
 import HotelInfoScreen from "../screens/HotelInfoScreen";
+import PaymentScreen from "../screens/PaymentScreen";
 const Stack = createStackNavigator();
 const AppStack = () => {
   return (
@@ -21,6 +22,7 @@ const AppStack = () => {
         name="HotelSelection"
         component={HotelRecommendationScreen}
       />
+      <Stack.Screen name="Payments" component={PaymentScreen} />
       <Stack.Screen name="HotelInfo" component={HotelInfoScreen} />
     </Stack.Navigator>
   );

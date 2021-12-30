@@ -1,17 +1,19 @@
-import React, { useLayoutEffect, useState } from "react";
+import React, { useContext, useEffect, useLayoutEffect, useState } from "react";
 import { StyleSheet, Text, View, KeyboardAvoidingView } from "react-native";
 import { auth, db } from "../utils/firebase/config.js";
-import HeaderBackButton from "../components/HeaderBackButton";
-import StyledTextInput from "../components/TextInput.styled.js";
-import Wrapper from "../components/Wrapper.styled.js";
-import StyledText from "../components/Text.styled.js";
-import BtnPrimary from "../components/BtnPrimary.js";
+import HeaderBackButton from "../common/HeaderBackButton";
+import StyledTextInput from "../common/TextInput.styled.js";
+import Wrapper from "../common/Wrapper.styled.js";
+import StyledText from "../common/Text.styled.js";
+import BtnPrimary from "../common/BtnPrimary.js";
+import { UserContext } from "../contexts/userContext.js";
 
 const RegisterScreen = ({ navigation }) => {
   //states
+  const { userName, setUserName } = useContext(UserContext);
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const [userName, setUsername] = useState("");
+  const [name, setName] = useState("");
   useLayoutEffect(() => {
     //configure header
     navigation.setOptions({
@@ -27,16 +29,18 @@ const RegisterScreen = ({ navigation }) => {
 
   const registerUser = () => {
     console.log("evokes");
+
     //register user to FB
     auth
       .createUserWithEmailAndPassword(email, password)
       .then((res) => {
-        const user = firebase.auth().currentUser;
-        return user.updateProfile({
-          displayName: userName,
-        });
+        console.log("Sucess");
+        auth.currentUser.updateProfile({ displayName: name });
       })
-      .then((user) => console.log(user))
+      .then(() => {
+        console.log("after name update");
+        console.log(auth.currentUser);
+      })
       .catch((error) => console.log(error.message));
   };
 
@@ -54,7 +58,9 @@ const RegisterScreen = ({ navigation }) => {
 
         <StyledTextInput
           placeholder="Name"
-          onChangeText={(text) => setUsername(text)}
+          onChangeText={(text) => {
+            setName(text);
+          }}
           width={270}
         />
         <StyledTextInput

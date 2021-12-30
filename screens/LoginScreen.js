@@ -2,10 +2,10 @@ import React, { useLayoutEffect, useState, useEffect } from "react";
 import { View } from "react-native";
 
 import { auth } from "../utils/firebase/config.js";
-import Wrapper from "../components/Wrapper.styled.js";
-import BtnPrimary from "../components/BtnPrimary.js";
-import StyledText from "../components/Text.styled.js";
-import StyledTextInput from "../components/TextInput.styled.js";
+import Wrapper from "../common/Wrapper.styled.js";
+import BtnPrimary from "../common/BtnPrimary.js";
+import StyledText from "../common/Text.styled.js";
+import StyledTextInput from "../common/TextInput.styled.js";
 
 const LoginScreen = ({ navigation }) => {
   //hide header
@@ -24,8 +24,8 @@ const LoginScreen = ({ navigation }) => {
   };
 
   //states
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
+  const [email, setEmail] = useState("abhishek@gmail.com");
+  const [password, setPassword] = useState("12345678");
   const [showVector, setShowVector] = useState(true);
   function handleVectors() {
     setShowVector(false);

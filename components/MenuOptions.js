@@ -1,7 +1,7 @@
 import React from "react";
 import { View, Text, TouchableOpacity } from "react-native";
 import { FontAwesome5, MaterialIcons } from "@expo/vector-icons";
-import StyledText from "./Text.styled";
+import StyledText from "../common/Text.styled";
 import { useNavigation } from "@react-navigation/core";
 
 const MenuOptions = () => {

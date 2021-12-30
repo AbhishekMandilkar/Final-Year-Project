@@ -1,8 +1,8 @@
 import React, { useLayoutEffect, useState, useEffect } from "react";
 import { View, FlatList, ActivityIndicator } from "react-native";
-import Wrapper from "../components/Wrapper.styled";
-import StyledText from "../components/Text.styled";
-import HeaderBackButton from "../components/HeaderBackButton";
+import Wrapper from "../common/Wrapper.styled";
+import StyledText from "../common/Text.styled";
+import HeaderBackButton from "../common/HeaderBackButton";
 
 import HotelCard from "../components/HotelCard";
 import { db } from "../utils/firebase/config";
@@ -18,7 +18,7 @@ const HotelRecommendationScreen = ({ navigation }) => {
       headerStyle: {
         elevation: 0,
       },
-      headerLeft: () => <HeaderBackButton navigateTo="Home" />,
+      headerLeft: () => <HeaderBackButton goBack />,
     });
   }, [navigation]);
   //fetch hotels data
@@ -41,7 +41,7 @@ const HotelRecommendationScreen = ({ navigation }) => {
           <ActivityIndicator size="large" color="black" />
         </View>
       ) : (
-        data.map((item, index) => <HotelCard item={item} key={item.id} />)
+        data.map((item, index) => <HotelCard item={item} key={index} />)
       )}
     </Wrapper>
   );

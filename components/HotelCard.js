@@ -3,7 +3,7 @@ import { Image } from "react-native";
 import { View, Text } from "react-native";
 import { useNavigation } from "@react-navigation/native";
 import styled from "styled-components";
-import StyledText from "./Text.styled";
+import StyledText from "../common/Text.styled";
 import { AntDesign } from "@expo/vector-icons";
 const HotelCard = ({ item }) => {
   const nav = useNavigation();

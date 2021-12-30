@@ -1,32 +1,25 @@
 import React, { useLayoutEffect, useState, useEffect } from "react";
-import {
-  View,
-  Image,
-  Text,
-  StatusBar,
-  Dimensions,
-  KeyboardAvoidingView,
-} from "react-native";
+import { View, Image, Dimensions } from "react-native";
 
 var screenWidth = Dimensions.get("window").width;
 
-import HeaderBackButton from "../components/HeaderBackButton";
+import HeaderBackButton from "../common/HeaderBackButton";
 
-import FAB from "../components/FAB";
+import FAB from "../common/FAB";
 
 //test
 import { auth, db } from "../utils/firebase/config.js";
-import Wrapper from "../components/Wrapper.styled";
-import StyledText from "../components/Text.styled";
-import StyledTextInput from "../components/TextInput.styled";
-import BtnPrimary from "../components/BtnPrimary";
+import Wrapper from "../common/Wrapper.styled";
+import StyledText from "../common/Text.styled";
+import StyledTextInput from "../common/TextInput.styled";
+import BtnPrimary from "../common/BtnPrimary";
 
 const NewTripScreen = ({ navigation }) => {
   //customize header
   useLayoutEffect(() => {
     navigation.setOptions({
       headerTitle: "",
-      headerLeft: () => <HeaderBackButton navigateTo="Home" />,
+      headerLeft: () => <HeaderBackButton goBack />,
     });
   }, [navigation]);
 

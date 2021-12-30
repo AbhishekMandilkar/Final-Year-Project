@@ -1,7 +1,7 @@
 import React from "react";
 import { View, Text } from "react-native";
 import styled from "styled-components";
-import StyledText from "./Text.styled";
+import StyledText from "../common/Text.styled";
 
 const CurrentTripCard = () => {
   return (

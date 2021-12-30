@@ -3,10 +3,10 @@ import React, { useLayoutEffect } from "react";
 import { View, Text, ScrollView } from "react-native";
 import { Image } from "react-native-elements";
 import styled from "styled-components";
-import BtnPrimary from "../components/BtnPrimary";
-import HeaderBackButton from "../components/HeaderBackButton";
-import StyledText from "../components/Text.styled";
-import Wrapper from "../components/Wrapper.styled";
+import BtnPrimary from "../common/BtnPrimary";
+import HeaderBackButton from "../common/HeaderBackButton";
+import StyledText from "../common/Text.styled";
+import Wrapper from "../common/Wrapper.styled";
 
 const HotelInfoScreen = ({ navigation, route }) => {
   //header Customizations
@@ -103,6 +103,7 @@ const HotelInfoScreen = ({ navigation, route }) => {
           }}
         >
           <BtnPrimary
+            onPress={() => navigation.replace("Payments")}
             title="Book"
             fullWidth
             radius={5}

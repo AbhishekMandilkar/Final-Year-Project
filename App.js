@@ -12,34 +12,40 @@ import { login, logout, selectUser } from "./features/userSlice";
 import { useDispatch } from "react-redux";
 import { auth } from "./utils/firebase/config";
 import { store } from "./app/store";
+import HandleContextProvider, { UserContext } from "./contexts/userContext";
+import { useContext } from "react";
 
 export default function AppWrapper() {
   return (
-    <Provider store={store}>
-      <App />
-    </Provider>
+    <HandleContextProvider>
+      <Provider store={store}>
+        <App />
+      </Provider>
+    </HandleContextProvider>
   );
 }
 
 function App() {
   const user = useSelector(selectUser);
-  // console.log(user);
+  const { userName, setUserName } = useContext(UserContext);
   const dispatch = useDispatch();
   useEffect(() => {
-    const unsubscribe = auth.onAuthStateChanged((userAuth) => {
+    auth.onAuthStateChanged((userAuth) => {
       if (userAuth) {
+        console.log("from dispatch");
+
         dispatch(
           login({
             uid: userAuth.uid,
             email: userAuth.email,
-            displayName: userAuth.displayName,
+            name: userAuth.displayName,
           })
         );
       } else {
+        setUserName("");
         dispatch(logout());
       }
     });
-    return unsubscribe;
   }, []);
 
   const [loaded] = useFonts({
@@ -59,7 +65,7 @@ function App() {
     <Theme>
       <Provider store={store}>
         <NavigationContainer>
-          {!user ? <AppStack /> : <AuthStack />}
+          {auth.currentUser ? <AppStack /> : <AuthStack />}
           {/* <AppStack /> */}
         </NavigationContainer>
       </Provider>
