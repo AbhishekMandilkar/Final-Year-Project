@@ -3,6 +3,7 @@ import React from "react";
 const theme = {
   colors: {
     primary: "#1da1f2",
+    gray: "#e6e6e6",
   },
 };
 
