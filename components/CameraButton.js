@@ -1,11 +1,24 @@
 import React, { useState } from "react";
-import { View, Text, TouchableOpacity } from "react-native";
+import LottieView from "lottie-react-native";
 import { MaterialIcons } from "@expo/vector-icons";
 import styled from "styled-components";
-const CameraButton = () => {
+const CameraButton = ({ startCamera }) => {
   return (
-    <Container>
-      <MaterialIcons name="photo-camera" size={42} color={"white"} />
+    <Container onPress={startCamera}>
+      <LottieView
+        source={require("../assets/animations/camera.json")}
+        autoPlay
+        loop
+        speed={0.8}
+        style={{
+          width: 64,
+          height: 72,
+          flexDirection: "row",
+          alignItems: "center",
+          justifyContent: "center",
+        }}
+      />
+      {/* <MaterialIcons name="photo-camera" size={42} color={"white"} /> */}
     </Container>
   );
 };
