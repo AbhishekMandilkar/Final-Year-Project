@@ -3,9 +3,10 @@ import { View, Text } from "react-native";
 import { createMaterialTopTabNavigator } from "@react-navigation/material-top-tabs";
 import HomeScreen from "./HomeScreen.js";
 import { Ionicons } from "@expo/vector-icons";
-import { FontAwesome } from "@expo/vector-icons";
+import { MaterialIcons } from "@expo/vector-icons";
 import { ThemeContext } from "styled-components";
 import ProfileScreen from "./ProfileScreen.js";
+import HotelRecommendationScreen from "./HotelRecommendationScreen.js";
 const Tab = createMaterialTopTabNavigator();
 const DashBoard = ({ navigation }) => {
   const theme = useContext(ThemeContext);
@@ -38,6 +39,8 @@ const DashBoard = ({ navigation }) => {
             iconName = focused ? "ios-home" : "ios-home-outline";
           } else if (route.name === "Profile") {
             iconName = focused ? "ios-person" : "ios-person-outline";
+          } else if (route.name === "HotelSelection") {
+            iconName = focused ? "ios-fast-food" : "ios-fast-food-outline";
           }
 
           // You can return any component that you like here!
@@ -52,6 +55,7 @@ const DashBoard = ({ navigation }) => {
       })}
     >
       <Tab.Screen name="Home" component={HomeScreen} />
+      <Tab.Screen name="HotelSelection" component={HotelRecommendationScreen} />
       <Tab.Screen name="Profile" component={ProfileScreen} />
     </Tab.Navigator>
   );

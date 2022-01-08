@@ -1,7 +1,7 @@
 import React, { useEffect } from "react";
 import { NavigationContainer } from "@react-navigation/native";
 
-import Theme from "./utils/theme/theme";
+import Theme from "./theme/theme";
 import { useFonts } from "expo-font";
 
 //navigators

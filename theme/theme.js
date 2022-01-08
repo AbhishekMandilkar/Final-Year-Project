@@ -4,6 +4,8 @@ const theme = {
   colors: {
     primary: "#1da1f2",
     gray: "#e6e6e6",
+    mintGreen: "#a3e4db",
+    darkMintGreen: "#16413B",
   },
 };
 

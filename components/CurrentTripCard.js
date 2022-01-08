@@ -13,8 +13,12 @@ const CurrentTripCard = () => {
           //   justifyContent: "center",
         }}
       >
-        <StyledText family="Poppins" style={{ color: "white", fontSize: 18 }}>
-          Your current trip{" "}
+        <StyledText
+          family="Poppins"
+          weight="bold"
+          style={{ color: "white", fontSize: 18 }}
+        >
+          Your current trip
         </StyledText>
       </View>
     </Container>
@@ -26,7 +30,7 @@ export default CurrentTripCard;
 const Container = styled.View`
   padding: 15px;
   width: 100%;
-  height: 250px;
+  height: 35%;
   background-color: #eee;
   margin: 10px auto;
   border-radius: 20px;

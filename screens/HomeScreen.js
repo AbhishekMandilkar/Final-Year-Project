@@ -5,7 +5,7 @@ import React, {
   useContext,
   useRef,
 } from "react";
-import { View } from "react-native";
+import { Dimensions, View } from "react-native";
 import Wrapper from "../common/Wrapper.styled.js";
 import StyledText from "../common/Text.styled.js";
 import CurrentTripCard from "../components/CurrentTripCard.js";
@@ -13,11 +13,13 @@ import { useSelector } from "react-redux";
 import { selectUser } from "../features/userSlice.js";
 import CameraButton from "../components/CameraButton.js";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
-import { Camera } from "expo-camera";
 import * as Permissions from "expo-permissions";
 import CameraView from "../components/CameraView.js";
+import SpotsRecommCard from "../components/SpotsRecommCard.js";
 const Tab = createBottomTabNavigator();
 const HomeScreen = ({ navigation }) => {
+  const windowWidth = Dimensions.get("window").width;
+  const windowHeight = Dimensions.get("window").height;
   let camera = useRef(null);
   const user = useSelector(selectUser);
   const [startCamera, setStartCamera] = useState(false);
@@ -57,6 +59,7 @@ const HomeScreen = ({ navigation }) => {
               Hi {user?.name ? user?.name : "there"} 👋
             </StyledText>
             <CurrentTripCard />
+            <SpotsRecommCard />
             <CameraButton startCamera={_startCamera} />
           </View>
         </Wrapper>
