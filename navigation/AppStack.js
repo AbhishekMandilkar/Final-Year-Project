@@ -10,6 +10,7 @@ import HotelInfoScreen from "../screens/HotelInfoScreen";
 import PaymentScreen from "../screens/PaymentScreen";
 import DashBoard from "../screens/DashBoardScreen";
 import SpotDetailsScreen from "../screens/SpotDetailsScreen";
+import SpotDirectionScreen from "../screens/SpotDirectionScreen";
 const Stack = createStackNavigator();
 const AppStack = () => {
   return (
@@ -27,6 +28,7 @@ const AppStack = () => {
       <Stack.Screen name="Payments" component={PaymentScreen} />
       <Stack.Screen name="HotelInfo" component={HotelInfoScreen} />
       <Stack.Screen name="SpotDetails" component={SpotDetailsScreen} />
+      <Stack.Screen name="SpotDirection" component={SpotDirectionScreen} />
     </Stack.Navigator>
   );
 };

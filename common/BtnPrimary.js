@@ -3,8 +3,9 @@ import styled from "styled-components";
 const Button = styled.TouchableOpacity`
   padding: 15px;
   width: ${(props) =>
-    props.width ? `${props.width}px` : props.fullWidth ? "1000px" : `270px`};
+    props.width ? `${props.width}px` : props.fullWidth ? `100%` : `270px`};
   border-radius: ${(props) => (props.radius ? `${props.radius}px` : `20px`)};
+
   display: flex;
   justify-content: center;
   align-items: center;
@@ -42,8 +43,13 @@ import React from "react";
 
 function BtnPrimary({ title, handleClick, width, radius, font, fullWidth }) {
   return (
-    <Button onPress={handleClick} width={width} radius={radius} fullwidth>
-      <ButtonTitle font={font}>{title}</ButtonTitle>
+    <Button
+      onPress={handleClick}
+      width={width}
+      radius={radius}
+      fullwidth={fullWidth}
+    >
+      <ButtonTitle family={font}>{title}</ButtonTitle>
     </Button>
   );
 }

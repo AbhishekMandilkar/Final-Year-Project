@@ -97,10 +97,10 @@ const SpotListItem = ({ spotInfo }) => {
         alignItems: "center",
       }}
     >
-      {spotInfo.Image ? (
+      {spotInfo.image ? (
         <Image
           source={{
-            uri: "https://" + spotInfo.Image,
+            uri: spotInfo.image,
           }}
           style={{ height: 40, width: 40, borderRadius: 50 }}
         />
@@ -116,7 +116,7 @@ const SpotListItem = ({ spotInfo }) => {
         family="Poppins"
         style={{ color: "#16413B", fontSize: 14, marginLeft: 10 }}
       >
-        {spotInfo?.Name}
+        {spotInfo?.name}
       </StyledText>
       <Ionicons
         style={{ position: "absolute", right: 0 }}
