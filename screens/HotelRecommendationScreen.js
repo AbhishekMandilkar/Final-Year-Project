@@ -18,7 +18,6 @@ const HotelRecommendationScreen = ({ navigation }) => {
       headerStyle: {
         elevation: 0,
       },
-      headerLeft: () => <HeaderBackButton goBack />,
     });
   }, [navigation]);
   //fetch hotels data

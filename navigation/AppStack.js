@@ -11,6 +11,7 @@ import PaymentScreen from "../screens/PaymentScreen";
 import DashBoard from "../screens/DashBoardScreen";
 import SpotDetailsScreen from "../screens/SpotDetailsScreen";
 import SpotDirectionScreen from "../screens/SpotDirectionScreen";
+import HeaderBackButton from "../common/HeaderBackButton";
 const Stack = createStackNavigator();
 const AppStack = () => {
   return (
@@ -24,11 +25,19 @@ const AppStack = () => {
       <Stack.Screen
         name="HotelSelection"
         component={HotelRecommendationScreen}
+        options={{ headerLeft: () => <HeaderBackButton goBack /> }}
       />
       <Stack.Screen name="Payments" component={PaymentScreen} />
       <Stack.Screen name="HotelInfo" component={HotelInfoScreen} />
       <Stack.Screen name="SpotDetails" component={SpotDetailsScreen} />
-      <Stack.Screen name="SpotDirection" component={SpotDirectionScreen} />
+      <Stack.Screen
+        name="SpotDirection"
+        component={SpotDirectionScreen}
+        options={{
+          headerTransparent: true,
+          headerLeft: () => <HeaderBackButton goBack />,
+        }}
+      />
     </Stack.Navigator>
   );
 };

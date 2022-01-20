@@ -1,16 +1,22 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useLayoutEffect, useRef, useState } from "react";
 import { View, Text, ToastAndroid } from "react-native";
 import * as Location from "expo-location";
 import Wrapper from "../common/Wrapper.styled";
 import MapView, { Marker, MarkerAnimated } from "react-native-maps";
 import { Dimensions } from "react-native";
 import BtnPrimary from "../common/BtnPrimary";
+import { GOOGLE_MAP_API } from "../utils/Api/apiKeys";
+import MapViewDirections from "react-native-maps-directions";
+import StyledText from "../common/Text.styled";
+import DirectionCard from "../components/DirectionCard";
 const SpotDirectionScreen = ({ navigation, route }) => {
   const windowWidth = Dimensions.get("window").width;
   const windowHeight = Dimensions.get("window").height;
   const spotInfo = route.params.spotInfo;
-  const destination = { lat: spotInfo.lat, lng: spotInfo.lng };
-  const [location, setLocation] = useState(null);
+  const destination = { latitude: spotInfo.lat, longitude: spotInfo.lng };
+  const [userLocation, setUserLocation] = useState();
+  const mapRef = useRef(null);
+
   useEffect(() => {
     (async () => {
       let { status } = await Location.requestForegroundPermissionsAsync();
@@ -19,61 +25,69 @@ const SpotDirectionScreen = ({ navigation, route }) => {
         return;
       }
 
-      let location = await Location.getCurrentPositionAsync({});
-      setLocation(location);
+      let loc = await Location.getCurrentPositionAsync({});
+      setUserLocation({
+        latitude: loc.coords.latitude,
+        longitude: loc.coords.longitude,
+      });
     })();
   }, []);
-  console.log(location);
+  useEffect(() => {
+    mapRef.current.fitToCoordinates([userLocation, destination], {
+      edgePadding: {
+        top: windowHeight / 5.2,
+        right: 50,
+        bottom: windowHeight / 2.5,
+        left: 50,
+      },
+    });
+  }, [userLocation, destination]);
+
   return (
-    <Wrapper>
+    <View>
       <MapView
+        ref={mapRef}
         style={{
-          height: windowHeight / 1.5,
-          marginHorizontal: 10,
+          height: windowHeight + 100,
+          width: windowWidth,
+
           borderRadius: 20,
         }}
         mapType="mutedStandard"
         initialRegion={{
-          latitude: destination.lat,
-          longitude: destination.lng,
+          latitude: destination.latitude,
+          longitude: destination.longitude,
           latitudeDelta: 0.005,
           longitudeDelta: 0.005,
         }}
       >
-        <Marker
-          coordinate={{
-            latitude: destination.lat,
-            longitude: destination.lng,
-          }}
-          title={spotInfo.name}
-          identifier="origin"
-        />
+        {userLocation && <Marker coordinate={userLocation} />}
+        {destination && (
+          <Marker
+            coordinate={destination}
+            title={spotInfo.name}
+            identifier="origin"
+          />
+        )}
+        {userLocation && destination && (
+          <MapViewDirections
+            mode="DRIVING"
+            strokeWidth={3}
+            lineCap="square"
+            lineDashPattern={[1]}
+            strokeColor="black"
+            origin={userLocation}
+            destination={destination}
+            apikey={GOOGLE_MAP_API}
+          />
+        )}
       </MapView>
-      <View
-        style={{
-          position: "absolute",
-          bottom: 0,
-          flexDirection: "row",
-          justifyContent: "center",
-          // backgroundColor: "red",
-          width: windowWidth,
-        }}
-      >
-        <BtnPrimary
-          title="Visit"
-          fullWidth
-          radius={5}
-          font="Poppins"
-          weight="bold"
-          width={windowWidth / 1.1}
-          handleClick={() =>
-            navigation.navigate("SpotDirection", {
-              spotInfo: spotInfo,
-            })
-          }
-        />
-      </View>
-    </Wrapper>
+      <DirectionCard
+        destinationName={spotInfo.name}
+        destination={destination}
+        origin={userLocation}
+      />
+    </View>
   );
 };
 

@@ -31,5 +31,6 @@ const StyledHeaderButton = styled.TouchableOpacity`
   padding: 5px;
   justify-content: center;
   align-items: center;
+  z-index: 1000;
   ${(props) => props.NewTripScreen && `background-color: #1FCBE3;`}
 `;
