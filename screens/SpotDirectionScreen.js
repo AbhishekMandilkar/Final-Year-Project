@@ -5,10 +5,11 @@ import Wrapper from "../common/Wrapper.styled";
 import MapView, { Marker, MarkerAnimated } from "react-native-maps";
 import { Dimensions } from "react-native";
 import BtnPrimary from "../common/BtnPrimary";
-import { GOOGLE_MAP_API } from "../utils/Api/apiKeys";
 import MapViewDirections from "react-native-maps-directions";
 import StyledText from "../common/Text.styled";
 import DirectionCard from "../components/DirectionCard";
+import { GOOGLE_API_KEY } from "@env";
+import axios from "axios";
 const SpotDirectionScreen = ({ navigation, route }) => {
   const windowWidth = Dimensions.get("window").width;
   const windowHeight = Dimensions.get("window").height;
@@ -78,7 +79,7 @@ const SpotDirectionScreen = ({ navigation, route }) => {
             strokeColor="black"
             origin={userLocation}
             destination={destination}
-            apikey={GOOGLE_MAP_API}
+            apikey={GOOGLE_API_KEY}
           />
         )}
       </MapView>
