@@ -2,25 +2,69 @@ import React from "react";
 import { View, Text } from "react-native";
 import styled from "styled-components";
 import StyledText from "../common/Text.styled";
-
-const CurrentTripCard = () => {
+import LottieView from "lottie-react-native";
+const CurrentTripCard = ({ tripInfo }) => {
   return (
     <Container>
-      <View
-        style={{
-          width: "100%",
-          flexDirection: "row",
-          //   justifyContent: "center",
-        }}
-      >
-        <StyledText
-          family="Poppins"
-          weight="bold"
-          style={{ color: "white", fontSize: 18 }}
-        >
-          Your current trip
-        </StyledText>
-      </View>
+      {tripInfo?.budget !== undefined && tripInfo?.days !== undefined ? (
+        <>
+          <View
+            style={{
+              width: "100%",
+            }}
+          >
+            <View>
+              <StyledText
+                family="Poppins"
+                weight="bold"
+                style={{ color: "white", fontSize: 18 }}
+              >
+                Your current trip
+              </StyledText>
+            </View>
+            <View style={{ paddingVertical: 10 }}>
+              <StyledText
+                family="Poppins"
+                style={{ color: "white", fontSize: 14 }}
+              >
+                {`Budget💰: ${tripInfo?.budget}₹`}
+              </StyledText>
+              <StyledText
+                family="Poppins"
+                style={{ color: "white", fontSize: 14 }}
+              >
+                {`Days📆: ${tripInfo?.days} days`}
+              </StyledText>
+            </View>
+          </View>
+        </>
+      ) : (
+        <>
+          <View
+            style={{
+              width: "100%",
+              height: "100%",
+
+              justifyContent: "center",
+              alignItems: "center",
+            }}
+          >
+            <LottieView
+              source={require("../assets/animations/card-loading.json")}
+              autoPlay
+              loop
+              speed={0.8}
+              style={{
+                width: 64,
+                height: 72,
+                flexDirection: "row",
+                alignItems: "center",
+                justifyContent: "center",
+              }}
+            />
+          </View>
+        </>
+      )}
     </Container>
   );
 };

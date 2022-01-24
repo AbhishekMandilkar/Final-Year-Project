@@ -26,10 +26,12 @@ const CameraButton = ({ startCamera }) => {
 export default CameraButton;
 const Container = styled.TouchableOpacity`
   margin: 5px 0;
+  margin-right: 5px;
   background-color: #7c2d27;
   flex-direction: row;
   justify-content: center;
   align-items: center;
-  height: 20%;
+  height: 120;
+  width: 50%;
   border-radius: 20px;
 `;

@@ -16,27 +16,7 @@ const Button = styled.TouchableOpacity`
 const ButtonTitle = styled.Text`
   color: #fff;
   font-size: 15px;
-  ${(props) => {
-    if (props.family === "Poppins") {
-      switch (props.weight) {
-        case "bold":
-          return `font-family:PopBold`;
-        case "medium":
-          return `font-family:PopMedium`;
-        default:
-          return `font-family:Pop`;
-      }
-    } else {
-      switch (props.weight) {
-        case "bold":
-          return `font-family:LatoBold`;
-        case "medium":
-          return `font-family:LatoMedium`;
-        default:
-          return `font-family:Lato`;
-      }
-    }
-  }};
+  font-family: Pop;
 `;
 
 import React from "react";

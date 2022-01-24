@@ -14,20 +14,20 @@ import { selectUser } from "../features/userSlice.js";
 import CameraButton from "../components/CameraButton.js";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import * as Permissions from "expo-permissions";
-import CameraView from "../components/CameraView.js";
+
 import SpotsRecommCard from "../components/SpotsRecommCard.js";
+import NewTripButton from "../components/NewTripButton.js";
+import { auth, db } from "../utils/firebase/config.js";
+import CameraScreen from "./CameraScreen.js";
 const Tab = createBottomTabNavigator();
 const HomeScreen = ({ navigation }) => {
   const windowWidth = Dimensions.get("window").width;
   const windowHeight = Dimensions.get("window").height;
   let camera = useRef(null);
   const user = useSelector(selectUser);
+  const [tripInfo, setTripInfo] = useState({});
   const [startCamera, setStartCamera] = useState(false);
-  useLayoutEffect(() => {
-    navigation.setOptions({
-      headerShown: false,
-    });
-  }, [navigation]);
+  const usersRef = db.collection("trips").doc(auth?.currentUser?.uid);
   useEffect(() => {
     const getPermissions = async () => {
       const { status } = await Permissions.askAsync(Permissions.CAMERA);
@@ -36,34 +36,38 @@ const HomeScreen = ({ navigation }) => {
     getPermissions();
   }, []);
   const _startCamera = () => {
-    setStartCamera(true);
-    console.log("hi");
+    navigation.navigate("Camera", camera);
   };
-  const _stopCamera = () => {
-    setStartCamera(false);
-  };
+
+  useEffect(() => {
+    usersRef.get().then((docSnap) => {
+      if (docSnap.exists) {
+        usersRef.onSnapshot((doc) => {
+          setTripInfo(doc.data());
+        });
+      } else {
+        setTripInfo(null);
+      }
+    });
+  }, []);
   return (
     <>
-      {startCamera ? (
-        <>
-          <CameraView stopCamera={_stopCamera} camera={camera} />
-        </>
-      ) : (
-        <Wrapper homeScreen style={{ paddingHorizontal: 20 }}>
-          <View>
-            <StyledText
-              family="Poppins"
-              weight="medium"
-              style={{ fontSize: 24 }}
-            >
-              Hi {user?.name ? user?.name : "there"} 👋
-            </StyledText>
-            <CurrentTripCard />
-            <SpotsRecommCard />
+      <Wrapper homeScreen style={{ paddingHorizontal: 20 }}>
+        <View>
+          <StyledText family="Poppins" weight="medium" style={{ fontSize: 24 }}>
+            Hi {user?.name ? user?.name : "there"} 👋
+          </StyledText>
+          {tripInfo !== null && <CurrentTripCard tripInfo={tripInfo} />}
+
+          <SpotsRecommCard />
+          <View
+            style={{ flexDirection: "row", justifyContent: "space-evenly" }}
+          >
             <CameraButton startCamera={_startCamera} />
+            <NewTripButton />
           </View>
-        </Wrapper>
-      )}
+        </View>
+      </Wrapper>
     </>
   );
 };

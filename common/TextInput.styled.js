@@ -8,9 +8,8 @@ const StyledTextInput = styled.TextInput`
   border-radius: 20px;
   background-color: #f1f2f6;
   width: ${(props) => (props.width ? `${props.width}px` : `250px`)};
-
   font-size: 15px;
-  font-family: "Lato";
+  font-family: Pop;
 `;
 
 export default StyledTextInput;
