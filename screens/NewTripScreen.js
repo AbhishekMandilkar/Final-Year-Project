@@ -30,15 +30,18 @@ const NewTripScreen = ({ navigation }) => {
     db.collection("trips")
       .doc(authUserId) //usiing auth users uniq id as document id in firestore
       .set({ days: noOfDays, budget: userBudget })
-      .then((res) => console.log(res))
+      .then((res) => {
+        console.log(res);
+        navigation.navigate("HotelSelection");
+      })
       .catch((err) => {
         console.log(err);
       });
   };
 
   //states
-  const [userBudget, setUserBudget] = useState("");
-  const [noOfDays, setNoOfDays] = useState("");
+  const [userBudget, setUserBudget] = useState(20000);
+  const [noOfDays, setNoOfDays] = useState(5);
 
   return (
     <Wrapper>
@@ -87,14 +90,14 @@ const NewTripScreen = ({ navigation }) => {
           }}
         >
           <StyledTextInput
-            value={userBudget}
+            value={userBudget.toString()}
             keyboardType={"numeric"}
             placeholder="How much is your budget in ₹?"
             onChangeText={(text) => setUserBudget(text)}
             width={windowWidth / 1.5}
           />
           <StyledTextInput
-            value={noOfDays}
+            value={noOfDays.toString()}
             keyboardType={"numeric"}
             placeholder="How long is your vacation?"
             onChangeText={(text) => setNoOfDays(text)}

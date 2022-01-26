@@ -24,7 +24,7 @@ const SpotsRecommCard = () => {
       handleLoading(false);
     });
   }, []);
-  console.log(data);
+
   return (
     <Container>
       {isLoading ? (

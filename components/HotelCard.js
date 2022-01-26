@@ -7,27 +7,22 @@ import StyledText from "../common/Text.styled";
 import { AntDesign } from "@expo/vector-icons";
 const HotelCard = ({ item }) => {
   const nav = useNavigation();
-
+  // console.log(typeof item.image === undefined ? item : item.image);
   return (
     <CardContainer onPress={() => nav.navigate("HotelInfo", { data: item })}>
-      <CardImage source={{ uri: item.imageUrl }} />
+      <CardImage
+        source={{
+          uri: item.image[0] || require("../assets/vectors/building-1062.png"),
+        }}
+      />
       <CardInfo>
         <Details>
           <StyledText family="Poppins" weight="medium" style={{ fontSize: 20 }}>
-            {item.name}
-          </StyledText>
-          <StyledText family="Lato" style={{ color: "gray" }}>
-            City name
+            {item?.name}
           </StyledText>
         </Details>
         <Rating>
-          <AntDesign
-            name="staro"
-            size={24}
-            color="black"
-            style={{ paddingRight: 5 }}
-          />
-          <StyledText>{item.rating}</StyledText>
+          <StyledText>₹ {item?.cost}/day</StyledText>
         </Rating>
       </CardInfo>
     </CardContainer>
@@ -52,6 +47,7 @@ const CardInfo = styled.View`
   padding-bottom: 5px;
   display: flex;
   justify-content: space-between;
+  flex-shrink: 1;
 `;
 const Rating = styled.View`
   padding-bottom: 10px;

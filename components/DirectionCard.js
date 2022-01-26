@@ -9,7 +9,7 @@ import { Button } from "react-native-elements";
 import getDirections from "react-native-google-maps-directions";
 import { AntDesign } from "@expo/vector-icons";
 import { API_URL } from "@env";
-import { getMetrics } from "../utils/Api/EndPoints";
+import requests, { getMetrics } from "../utils/Api/EndPoints";
 const DirectionCard = ({ destinationName, destination, origin }) => {
   const windowWidth = Dimensions.get("window").width;
   const windowHeight = Dimensions.get("window").height;
@@ -25,7 +25,7 @@ const DirectionCard = ({ destinationName, destination, origin }) => {
       console.log("origin", origin);
       console.log("destination", destination);
       await axios
-        .post(`${API_URL}${getMetrics}`, body, {})
+        .post(requests.getDistanceMetrics, body, {})
         .then((res) => {
           setMetrics(res.data);
           setIsLoading(false);

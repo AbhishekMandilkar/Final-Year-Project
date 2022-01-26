@@ -36,10 +36,14 @@ const AppStack = () => {
       <Stack.Screen
         name="HotelSelection"
         component={HotelRecommendationScreen}
-        options={{ headerLeft: () => <HeaderBackButton goBack /> }}
+        options={{ headerLeft: () => <HeaderBackButton /> }}
       />
       <Stack.Screen name="Payments" component={PaymentScreen} />
-      <Stack.Screen name="HotelInfo" component={HotelInfoScreen} />
+      <Stack.Screen
+        name="HotelInfo"
+        component={HotelInfoScreen}
+        options={{ headerShown: false }}
+      />
       <Stack.Screen name="SpotDetails" component={SpotDetailsScreen} />
       <Stack.Screen
         name="Camera"
@@ -104,7 +108,6 @@ const DashBoardStack = () => {
         component={HomeScreen}
         options={{ headerShown: false }}
       />
-      <Tab.Screen name="HotelSelection" component={HotelRecommendationScreen} />
       <Tab.Screen name="Profile" component={ProfileScreen} />
     </Tab.Navigator>
   );

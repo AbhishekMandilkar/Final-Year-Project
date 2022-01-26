@@ -11,9 +11,7 @@ const HeaderBackButton = ({ navigateTo, NewTripScreen, color, size }) => {
     <StyledHeaderButton
       NewTripScreen={NewTripScreen}
       activeOpacity={0.5}
-      onPress={() =>
-        navigateTo ? navigation.replace(navigateTo) : navigation.goBack()
-      }
+      onPress={() => navigation.goBack()}
     >
       <AntDesign
         name="left"
