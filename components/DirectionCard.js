@@ -22,9 +22,7 @@ const DirectionCard = ({ destinationName, destination, origin }) => {
         org: origin,
         dst: destination,
       };
-      console.log("origin", origin);
-      console.log("destination", destination);
-      console.log(requests.getDistanceMetrics);
+
       await axios
         .post(requests.getDistanceMetrics, body, {})
         .then((res) => {
