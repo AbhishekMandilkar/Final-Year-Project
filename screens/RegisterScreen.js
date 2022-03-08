@@ -51,7 +51,11 @@ const RegisterScreen = ({ navigation }) => {
           <StyledText family="Poppins" weight="bold" style={{ fontSize: 36 }}>
             Get Started
           </StyledText>
-          <StyledText family="Poppins" weight="light" style={{ fontSize: 16 }}>
+          <StyledText
+            family="Poppins"
+            weight="light"
+            style={{ fontSize: 16, color: "rgba(0,0,0,0.7)" }}
+          >
             Let's create your account
           </StyledText>
         </View>
@@ -73,7 +77,7 @@ const RegisterScreen = ({ navigation }) => {
           onChangeText={(text) => setPassword(text)}
           width={270}
         />
-        <BtnPrimary title="Sign Up" handleClick={registerUser} width={270} />
+        <BtnPrimary title="Register" handleClick={registerUser} width={270} />
       </View>
     </Wrapper>
   );

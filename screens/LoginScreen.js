@@ -47,11 +47,24 @@ const LoginScreen = ({ navigation }) => {
           paddingVertical: 40,
         }}
       >
-        <View style={{ padding: 60 }}>
-          <StyledText family="Poppins" weight="bold" style={{ fontSize: 36 }}>
+        <View
+          style={{ padding: 60, textAlign: "center", justifyContent: "center" }}
+        >
+          <StyledText
+            family="Poppins"
+            weight="bold"
+            style={{ fontSize: 36, textAlign: "center" }}
+          >
             Let's sign you in
           </StyledText>
-          <StyledText family="Poppins" style={{ fontSize: 24 }}>
+          <StyledText
+            family="Poppins"
+            style={{
+              fontSize: 24,
+              textAlign: "center",
+              color: "rgba(0,0,0,0.7)",
+            }}
+          >
             Welcome Back
           </StyledText>
         </View>
@@ -63,6 +76,7 @@ const LoginScreen = ({ navigation }) => {
             Don't have an account?
             <StyledText
               weight="bold"
+              style={{ marginLeft: 10, textDecorationLine: "underline" }}
               onPress={() => navigation.navigate("Register")}
             >
               Register

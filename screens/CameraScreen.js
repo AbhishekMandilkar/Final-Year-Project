@@ -7,24 +7,72 @@ import { Icon } from "react-native-elements";
 import HeaderBackButton from "../common/HeaderBackButton";
 import Wrapper from "../common/Wrapper.styled";
 import StyledText from "../common/Text.styled";
-function CameraScreen({ camera, stopCamera }) {
+import BtnPrimary from "../common/BtnPrimary";
+function CameraScreen({ camera, stopCamera, navigation }) {
   const windowWidth = Dimensions.get("window").width;
   const windowHeight = Dimensions.get("window").height;
   const [clicked, setClicked] = useState(false);
   const [image, setImage] = useState();
+
+  const onSnap = async () => {
+    if (camera) {
+      const photo = await camera.takePictureAsync();
+      setImage(photo.uri);
+      setClicked(true);
+    }
+  };
+
   return (
     <>
       {clicked ? (
         <Wrapper>
-          <TouchableOpacity
-            onPress={() => setClicked(false)}
+          <View
             style={{
-              backgroundColor: "Red",
+              alignItems: "center",
+              justifyContent: "center",
+              marginTop: 20,
+              // width: "90%",
+              paddingHorizontal: 20,
             }}
           >
-            <StyledText>go back</StyledText>
-          </TouchableOpacity>
-          {/* <Image source={{ uri: image }} style={{ height: 100, width: 100 }} /> */}
+            <Image
+              source={{ uri: image }}
+              style={{
+                borderRadius: 20,
+                height: windowHeight / 2,
+                width: windowWidth / 1.1,
+              }}
+            />
+            <View style={{ padding: 20 }}>
+              <StyledText weight="medium" style={{ fontSize: 18 }}>
+                Consectetur minim incididunt voluptate eiusmod Lorem irure ut et
+                excepteur minim excepteur voluptate. Sit amet ea nostrud fugiat
+                nisi proident sit consequat. Irure reprehenderit minim commodo
+                voluptate ex mollit minim sunt duis non sunt proident. Amet enim
+              </StyledText>
+            </View>
+            <View
+              style={{
+                flexDirection: "row",
+                justifyContent: "space-evenly",
+
+                width: "100%",
+              }}
+            >
+              <BtnPrimary
+                width={windowWidth / 2.5}
+                title={"Home"}
+                handleClick={() =>
+                  navigation.reset({ index: 0, routes: [{ name: "Home" }] })
+                }
+              />
+              <BtnPrimary
+                width={windowWidth / 2.5}
+                title={"Click again"}
+                handleClick={() => setClicked(false)}
+              />
+            </View>
+          </View>
         </Wrapper>
       ) : (
         <Camera
@@ -54,15 +102,7 @@ function CameraScreen({ camera, stopCamera }) {
               <HeaderBackButton goBack color="#fff" size={35} />
             </TouchableOpacity>
             <TouchableOpacity
-              onPress={async () => {
-                if (camera) {
-                  let photo = await camera.takePictureAsync();
-                  setImage(photo);
-                  setTimeout(() => {
-                    setClicked(true);
-                  }, 3000);
-                }
-              }}
+              onPress={() => onSnap()}
               style={{
                 width: windowWidth / 3,
                 alignItems: "center",

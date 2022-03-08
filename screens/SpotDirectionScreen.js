@@ -1,5 +1,5 @@
 import React, { useEffect, useLayoutEffect, useRef, useState } from "react";
-import { View, Text, ToastAndroid } from "react-native";
+import { View, Text, ToastAndroid, Platform } from "react-native";
 import * as Location from "expo-location";
 import Wrapper from "../common/Wrapper.styled";
 import MapView, { Marker, MarkerAnimated } from "react-native-maps";
@@ -20,6 +20,13 @@ const SpotDirectionScreen = ({ navigation, route }) => {
 
   useEffect(() => {
     (async () => {
+      //   if(Platform.OS === "ios"){
+      //     // your code using Geolocation and asking for authorisation with
+
+      //     geolocation.requestAuthorization()
+      //  }else{
+      //     // ask for PermissionAndroid as written in your code
+      //  }
       let { status } = await Location.requestForegroundPermissionsAsync();
       if (status !== "granted") {
         ToastAndroid.show("Permission to access location was denied");

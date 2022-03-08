@@ -1,11 +1,12 @@
 import React, { useContext } from "react";
-import { View, Text } from "react-native";
+import { View, Text, TouchableOpacity } from "react-native";
 import StyledText from "../common/Text.styled";
 import Wrapper from "../common/Wrapper.styled";
 import { FontAwesome } from "@expo/vector-icons";
 import { useSelector } from "react-redux";
 import { selectUser } from "../features/userSlice";
 import { ThemeContext } from "styled-components";
+import { auth, db } from "../utils/firebase/config.js";
 const ProfileScreen = () => {
   const user = useSelector(selectUser);
   const theme = useContext(ThemeContext);
@@ -49,9 +50,11 @@ const ProfileScreen = () => {
               borderRadius: 10,
             }}
           >
-            <StyledText family="Poppins" style={{ fontSize: 22 }}>
-              {user?.email}
-            </StyledText>
+            <TouchableOpacity onPress={() => auth.signOut()}>
+              <StyledText family="Poppins" style={{ fontSize: 22 }}>
+                {user?.email}
+              </StyledText>
+            </TouchableOpacity>
           </View>
         </View>
       </View>
