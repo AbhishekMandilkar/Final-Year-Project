@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Camera } from "expo-camera";
 import { Dimensions, Image, Touchable, View } from "react-native";
 import { Entypo } from "@expo/vector-icons";
@@ -8,11 +8,47 @@ import HeaderBackButton from "../common/HeaderBackButton";
 import Wrapper from "../common/Wrapper.styled";
 import StyledText from "../common/Text.styled";
 import BtnPrimary from "../common/BtnPrimary";
+import axios from "axios";
 function CameraScreen({ camera, stopCamera, navigation }) {
   const windowWidth = Dimensions.get("window").width;
   const windowHeight = Dimensions.get("window").height;
   const [clicked, setClicked] = useState(false);
-  const [image, setImage] = useState();
+  const [image, setImage] = useState("");
+  const url = "http://192.168.1.204:5000";
+
+  const uploadImage = async () => {
+    console.log("uploading image");
+
+    const formData = new FormData();
+    formData.append("image", {
+      name: new Date().getTime() + ".jpg",
+      uri: image,
+      type: "image/jpeg",
+    });
+    console.log(formData);
+    const client = axios.create({
+      baseURL: url,
+    });
+
+    // let res = await client.post(`${url}`, formData, {
+    //   headers: {
+    //     Accept: "application/json",
+    //     "Content-Type": "multipart/form-data",
+    //   },
+    // });
+    // console.log(res.data);
+
+    fetch(url, {
+      method: "POST",
+      headers: {
+        Accept: "application/json",
+        "Content-Type": "multipart/form-data",
+      },
+      body: formData,
+    })
+      .then((res) => console.log(res))
+      .catch((err) => console.log(err));
+  };
 
   const onSnap = async () => {
     if (camera) {
@@ -21,7 +57,13 @@ function CameraScreen({ camera, stopCamera, navigation }) {
       setClicked(true);
     }
   };
-
+  useEffect(() => {
+    console.log("evoked useEffect with", image);
+    if (image !== "") {
+      console.log("uploading image");
+      uploadImage();
+    }
+  }, [image]);
   return (
     <>
       {clicked ? (
