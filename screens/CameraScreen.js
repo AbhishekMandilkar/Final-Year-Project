@@ -14,7 +14,7 @@ function CameraScreen({ camera, stopCamera, navigation }) {
   const windowHeight = Dimensions.get("window").height;
   const [clicked, setClicked] = useState(false);
   const [image, setImage] = useState("");
-  const url = "http://192.168.1.204:5000";
+  const url = "http://172.20.10.2:5000";
 
   const uploadImage = async () => {
     console.log("uploading image");
