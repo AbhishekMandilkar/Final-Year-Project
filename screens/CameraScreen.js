@@ -8,35 +8,26 @@ import HeaderBackButton from "../common/HeaderBackButton";
 import Wrapper from "../common/Wrapper.styled";
 import StyledText from "../common/Text.styled";
 import BtnPrimary from "../common/BtnPrimary";
-import axios from "axios";
+import LottieView from "lottie-react-native";
+import { db } from "../utils/firebase/config";
+
 function CameraScreen({ camera, stopCamera, navigation }) {
   const windowWidth = Dimensions.get("window").width;
   const windowHeight = Dimensions.get("window").height;
+  const [data, setData] = useState([]);
   const [clicked, setClicked] = useState(false);
   const [image, setImage] = useState("");
-  const url = "http://172.20.10.2:5000";
-
+  const [info, setInfo] = useState("");
+  const [spotInfo, setSpotInfo] = useState({});
+  const url = "http://192.168.1.204:5000";
+  const [isLoading, setIsLoading] = useState(true);
   const uploadImage = async () => {
-    console.log("uploading image");
-
     const formData = new FormData();
     formData.append("image", {
       name: new Date().getTime() + ".jpg",
       uri: image,
       type: "image/jpeg",
     });
-    console.log(formData);
-    const client = axios.create({
-      baseURL: url,
-    });
-
-    // let res = await client.post(`${url}`, formData, {
-    //   headers: {
-    //     Accept: "application/json",
-    //     "Content-Type": "multipart/form-data",
-    //   },
-    // });
-    // console.log(res.data);
 
     fetch(url, {
       method: "POST",
@@ -46,7 +37,10 @@ function CameraScreen({ camera, stopCamera, navigation }) {
       },
       body: formData,
     })
-      .then((res) => console.log(res))
+      .then((res) => res.json())
+      .then((res) => {
+        setInfo(res);
+      })
       .catch((err) => console.log(err));
   };
 
@@ -58,12 +52,33 @@ function CameraScreen({ camera, stopCamera, navigation }) {
     }
   };
   useEffect(() => {
-    console.log("evoked useEffect with", image);
     if (image !== "") {
-      console.log("uploading image");
       uploadImage();
     }
   }, [image]);
+  useEffect(() => {
+    db.collection("spots").onSnapshot((snapshot) => {
+      setData(snapshot.docs.map((doc) => doc.data()));
+    });
+  }, []);
+  useEffect(() => {
+    if (info.status === 1 && data !== []) {
+      let spotInfo = data.find((spot) => {
+        if (spot?.name?.includes(info.label)) {
+          return spot;
+        }
+      });
+      setIsLoading(false);
+      setSpotInfo(spotInfo);
+    } else if (info.status === 0) {
+      setIsLoading(false);
+      let spotInfo = {
+        name: "No Spot Found",
+        description: "Please take another picture or try again later",
+      };
+      setSpotInfo(spotInfo);
+    }
+  }, [info]);
   return (
     <>
       {clicked ? (
@@ -86,12 +101,37 @@ function CameraScreen({ camera, stopCamera, navigation }) {
               }}
             />
             <View style={{ padding: 20 }}>
-              <StyledText weight="medium" style={{ fontSize: 18 }}>
-                Consectetur minim incididunt voluptate eiusmod Lorem irure ut et
-                excepteur minim excepteur voluptate. Sit amet ea nostrud fugiat
-                nisi proident sit consequat. Irure reprehenderit minim commodo
-                voluptate ex mollit minim sunt duis non sunt proident. Amet enim
-              </StyledText>
+              {isLoading ? (
+                <>
+                  <LottieView
+                    autoPlay
+                    loop
+                    speed={0.8}
+                    style={{
+                      width: 72,
+                      height: 72,
+                    }}
+                    source={require("../assets/animations/card-loading.json")}
+                  />
+                </>
+              ) : (
+                <>
+                  <StyledText
+                    weight="bold"
+                    family="Poppins"
+                    style={{ fontSize: 22 }}
+                  >
+                    {spotInfo?.name}
+                  </StyledText>
+                  <StyledText
+                    weight="medium"
+                    family="Poppins"
+                    style={{ fontSize: 14 }}
+                  >
+                    {spotInfo?.description}
+                  </StyledText>
+                </>
+              )}
             </View>
             <View
               style={{
@@ -104,14 +144,20 @@ function CameraScreen({ camera, stopCamera, navigation }) {
               <BtnPrimary
                 width={windowWidth / 2.5}
                 title={"Home"}
-                handleClick={() =>
-                  navigation.reset({ index: 0, routes: [{ name: "Home" }] })
-                }
+                handleClick={() => {
+                  setSpotInfo({});
+                  setImage("");
+                  navigation.reset({ index: 0, routes: [{ name: "Home" }] });
+                }}
               />
               <BtnPrimary
                 width={windowWidth / 2.5}
                 title={"Click again"}
-                handleClick={() => setClicked(false)}
+                handleClick={() => {
+                  setSpotInfo({});
+                  setImage("");
+                  setClicked(false);
+                }}
               />
             </View>
           </View>
