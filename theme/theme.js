@@ -7,6 +7,7 @@ const theme = {
     mintGreen: "#a3e4db",
     darkMintGreen: "#16413B",
     paleYellow: "#F6D860",
+    success: "#4BB543",
   },
 };
 

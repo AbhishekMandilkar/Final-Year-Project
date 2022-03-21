@@ -9,7 +9,7 @@ const Button = styled.TouchableOpacity`
   display: flex;
   justify-content: center;
   align-items: center;
-  margin: 5px 0;
+  margin: 5px 2px;
   background-color: ${(props) => `${props.theme.colors.primary}`};
 `;
 

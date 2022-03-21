@@ -4,6 +4,7 @@ import styled from "styled-components";
 import StyledText from "../common/Text.styled";
 import LottieView from "lottie-react-native";
 const CurrentTripCard = ({ tripInfo }) => {
+  console.log("this is your trip", tripInfo);
   return (
     <Container>
       {tripInfo?.budget !== undefined && tripInfo?.days !== undefined ? (
@@ -34,6 +35,12 @@ const CurrentTripCard = ({ tripInfo }) => {
                 style={{ color: "white", fontSize: 14 }}
               >
                 {`Days📆: ${tripInfo?.days} days`}
+              </StyledText>
+              <StyledText
+                family="Poppins"
+                style={{ color: "white", fontSize: 14 }}
+              >
+                {`Hotel🛌: ${tripInfo?.hotelName} days`}
               </StyledText>
             </View>
           </View>
