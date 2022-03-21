@@ -73,7 +73,7 @@ const SpotsRecommCard = () => {
               weight="bold"
               style={{ color: theme.colors.darkMintGreen, fontSize: 18 }}
             >
-              Spot Recommendations
+              Some Spots you may like...
             </StyledText>
           </View>
           <ScrollView ref={scrollViewRef} horizontal style={{ height: "21%" }}>

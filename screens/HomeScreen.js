@@ -58,6 +58,7 @@ const HomeScreen = ({ navigation }) => {
             Hi {user?.name ? user?.name : "there"} 👋
           </StyledText>
           {tripInfo !== null && <CurrentTripCard tripInfo={tripInfo} />}
+          <SpotsRecommCard />
 
           <View
             style={{ flexDirection: "row", justifyContent: "space-evenly" }}
@@ -65,7 +66,6 @@ const HomeScreen = ({ navigation }) => {
             <CameraButton startCamera={_startCamera} />
             <NewTripButton />
           </View>
-          <SpotsRecommCard />
         </View>
       </Wrapper>
     </>
