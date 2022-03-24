@@ -1,4 +1,4 @@
-import React, { useLayoutEffect, useState, useEffect } from "react";
+import React, { useLayoutEffect, useState, useEffect, useContext } from "react";
 import {
   View,
   Image,
@@ -11,38 +11,79 @@ var screenWidth = Dimensions.get("window").width;
 
 import HeaderBackButton from "../common/HeaderBackButton";
 
-import FAB from "../common/FAB";
-
 //test
 import { auth, db } from "../utils/firebase/config.js";
 import Wrapper from "../common/Wrapper.styled";
 import StyledText from "../common/Text.styled";
 import StyledTextInput from "../common/TextInput.styled";
 import BtnPrimary from "../common/BtnPrimary";
+import { Button } from "react-native-elements";
+import { ThemeContext } from "styled-components";
 
 const NewTripScreen = ({ navigation }) => {
+  const theme = useContext(ThemeContext);
   const authUserId = auth?.currentUser?.uid; //get authenticated users unique id
   const windowWidth = Dimensions.get("window").width;
   const windowHeight = Dimensions.get("window").height;
-  const setUserTripInfo = () => {
-    console.log({ authUserId, noOfDays, userBudget });
-    //push user data to firestore
-    db.collection("trips")
-      .doc(authUserId) //usiing auth users uniq id as document id in firestore
-      .set({ days: noOfDays, budget: userBudget })
-      .then((res) => {
-        console.log(res);
-        navigation.navigate("HotelSelection");
-      })
-      .catch((err) => {
-        console.log(err);
-      });
-  };
 
   //states
-  const [userBudget, setUserBudget] = useState(20000);
-  const [noOfDays, setNoOfDays] = useState(5);
+  const [userBudget, setUserBudget] = useState(0);
+  const [noOfDays, setNoOfDays] = useState(0);
+  const [validBudget, setValidBudget] = useState(true);
+  const [validDays, setValidDays] = useState(true);
+  const [isLoading, setIsLoading] = useState(false);
 
+  const setUserTripInfo = () => {
+    setIsLoading(true);
+    //push user data to firestore
+    validateBudget(parseInt(userBudget));
+    validateDays(parseInt(noOfDays));
+    if (validBudget === true && validDays === true) {
+      console.log("valid budget and days");
+      if (userBudget !== 0 || noOfDays !== 0) {
+        setIsLoading(true);
+        db.collection("trips")
+          .doc(authUserId) //usiing auth users uniq id as document id in firestore
+          .set({ days: parseInt(noOfDays), budget: parseInt(userBudget) })
+          .then((res) => {
+            console.log(res);
+            setIsLoading(false);
+            navigation.navigate("HotelSelection");
+          })
+          .catch((err) => {
+            console.log(err);
+          });
+        setIsLoading(false);
+      } else {
+        setIsLoading(false);
+      }
+      setIsLoading(false);
+    } else {
+      console.log("invalid budget or days");
+      setIsLoading(false);
+    }
+  };
+
+  //validation
+  const validateBudget = (budget) => {
+    if (budget >= 8000) {
+      console.log("valid budget");
+      setValidBudget(true);
+    } else {
+      setValidBudget(false);
+    }
+  };
+  const validateDays = (days) => {
+    if (days >= 3) {
+      console.log("valid days");
+      setValidDays(true);
+    } else {
+      setValidDays(false);
+    }
+  };
+  useEffect(() => {
+    console.log("user budget", validBudget, "no of days", validDays);
+  }, [validBudget, validDays]);
   return (
     <Wrapper>
       <View style={{ height: windowHeight / 8, flexDirection: "row" }}>
@@ -83,6 +124,7 @@ const NewTripScreen = ({ navigation }) => {
           style={{
             justifyContent: "center",
             alignItems: "center",
+
             // paddingVertical: 40,
             width: "100%",
             backgroundColor: "white",
@@ -90,23 +132,72 @@ const NewTripScreen = ({ navigation }) => {
           }}
         >
           <StyledTextInput
-            value={userBudget.toString()}
+            value={userBudget === 0 ? "" : userBudget.toString()}
             keyboardType={"numeric"}
             placeholder="How much is your budget in ₹?"
             onChangeText={(text) => setUserBudget(text)}
             width={windowWidth / 1.5}
           />
+          {!validBudget && (
+            <>
+              <StyledText
+                family="Poppins"
+                weight="medium"
+                style={{ color: "red", fontSize: 12 }}
+              >
+                Enter valid budget, minimum budget is ₹8000
+              </StyledText>
+            </>
+          )}
           <StyledTextInput
-            value={noOfDays.toString()}
+            value={noOfDays === 0 ? "" : noOfDays.toString()}
             keyboardType={"numeric"}
             placeholder="How long is your vacation?"
             onChangeText={(text) => setNoOfDays(text)}
             width={windowWidth / 1.5}
           />
-          <BtnPrimary
+          {!validDays && (
+            <>
+              <StyledText
+                family="Poppins"
+                weight="medium"
+                style={{ color: "red", fontSize: 12 }}
+              >
+                Enter valid days, minimum budget is 3 days
+              </StyledText>
+            </>
+          )}
+          {/* <BtnPrimary
             title="Get Started"
             handleClick={setUserTripInfo}
             width={windowWidth / 1.5}
+          /> */}
+          <Button
+            onPress={() => setUserTripInfo()}
+            loading={isLoading}
+            title={
+              <StyledText
+                family="Poppins"
+                style={{
+                  color: "#fff",
+                  flexDirection: "row",
+                  alignItems: "center",
+                  fontSize: 18,
+                }}
+              >
+                Get Started
+              </StyledText>
+            }
+            type="solid"
+            buttonStyle={{
+              backgroundColor: theme.colors.primary,
+              paddingHorizontal: 20,
+              paddingVertical: 10,
+            }}
+            containerStyle={{
+              borderRadius: 20,
+              width: windowWidth / 1.5,
+            }}
           />
         </View>
       </KeyboardAvoidingView>

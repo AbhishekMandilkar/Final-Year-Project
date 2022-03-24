@@ -36,12 +36,14 @@ const CurrentTripCard = ({ tripInfo }) => {
               >
                 {`Days📆: ${tripInfo?.days} days`}
               </StyledText>
-              <StyledText
-                family="Poppins"
-                style={{ color: "white", fontSize: 14 }}
-              >
-                {`Hotel🛌: ${tripInfo?.hotelName} days`}
-              </StyledText>
+              {tripInfo?.hotelName && (
+                <StyledText
+                  family="Poppins"
+                  style={{ color: "white", fontSize: 14 }}
+                >
+                  {`Hotel🛌: ${tripInfo?.hotelName} `}
+                </StyledText>
+              )}
             </View>
           </View>
         </>
