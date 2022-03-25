@@ -19,7 +19,7 @@ import shortenText from "../helper/clipText";
 const SpotsRecommCard = () => {
   const [isLoading, handleLoading] = useState(true);
   const [data, setData] = useState([]);
-
+  let navigation = useNavigation();
   const theme = useContext(ThemeContext);
   const scrollViewRef = useRef();
   useEffect(() => {
@@ -81,6 +81,33 @@ const SpotsRecommCard = () => {
               <SpotListItem key={index} spotInfo={data} />
             ))}
           </ScrollView>
+          <View
+            style={{
+              flexDirection: "row",
+              justifyContent: "flex-end",
+            }}
+          >
+            <TouchableOpacity
+              onPress={() => navigation.navigate("SpotRecomm")}
+              style={{
+                backgroundColor: theme.colors.darkMintGreen,
+                borderRadius: 20,
+                paddingVertical: 2,
+                paddingHorizontal: 6,
+              }}
+            >
+              <StyledText
+                family="Poppins"
+                style={{
+                  color: "#fff",
+
+                  fontSize: 12,
+                }}
+              >
+                See more
+              </StyledText>
+            </TouchableOpacity>
+          </View>
         </>
       )}
     </Container>

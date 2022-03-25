@@ -19,7 +19,7 @@ function CameraScreen({ camera, stopCamera, navigation }) {
   const [image, setImage] = useState("");
   const [info, setInfo] = useState("");
   const [spotInfo, setSpotInfo] = useState({});
-  const url = "http://192.168.1.206:5000/";
+  const url = "http://172.20.10.2:5000/";
   const [isLoading, setIsLoading] = useState(true);
   const uploadImage = async () => {
     const formData = new FormData();

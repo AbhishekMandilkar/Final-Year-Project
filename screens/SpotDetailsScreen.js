@@ -55,7 +55,7 @@ const SpotDetailsScreen = ({ route, navigation }) => {
                     : spotInfo?.description}
                 </>
               )}
-            </StyledText>
+            </StyledText> 
             {spotInfo.description.length > 240 && (
               <StyledText
                 family="Poppins"

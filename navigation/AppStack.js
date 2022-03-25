@@ -17,6 +17,7 @@ import ProfileScreen from "../screens/ProfileScreen";
 import { ThemeContext } from "styled-components";
 import { Ionicons } from "@expo/vector-icons";
 import CameraScreen from "../screens/CameraScreen";
+import SpotRecommendation from "../screens/SpotRecommScreen";
 const Stack = createStackNavigator();
 const Tab = createMaterialTopTabNavigator();
 
@@ -57,6 +58,11 @@ const AppStack = () => {
           headerTransparent: true,
           headerLeft: () => <HeaderBackButton goBack />,
         }}
+      />
+      <Stack.Screen
+        name={"SpotRecomm"}
+        component={SpotRecommendation}
+        options={{ headerLeft: () => <HeaderBackButton /> }}
       />
     </Stack.Navigator>
   );
