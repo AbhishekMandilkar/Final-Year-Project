@@ -15,6 +15,7 @@ import { store } from "./app/store";
 import HandleContextProvider, { UserContext } from "./contexts/userContext";
 import { useContext } from "react";
 import { LogBox } from "react-native";
+
 LogBox.ignoreLogs(["Warning: ..."]); // Ignore log notification by message
 LogBox.ignoreAllLogs(); //Ignore all log notifications
 export default function AppWrapper() {

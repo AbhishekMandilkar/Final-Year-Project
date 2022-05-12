@@ -19,6 +19,7 @@ import StyledText from "../common/Text.styled";
 import Wrapper from "../common/Wrapper.styled";
 import { SliderBox } from "react-native-image-slider-box";
 import { auth, db } from "../utils/firebase/config";
+
 const HotelInfoScreen = ({ navigation, route }) => {
   const [modalVisible, setModalVisible] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
@@ -160,7 +161,13 @@ const HotelInfoScreen = ({ navigation, route }) => {
                   }}
                 >
                   <Button
-                    onPress={() => handleBookingUpdateInfo()}
+                    onPress={() => {
+                      navigation.navigate("Checkout", {
+                        amount: data?.cost,
+                        hotelName: data?.name,
+                      });
+                      setModalVisible(!modalVisible);
+                    }}
                     loading={isLoading}
                     title={
                       <StyledText

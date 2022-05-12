@@ -64,6 +64,7 @@ const SpotRecommScreen = ({ navigation }) => {
           <ScrollView>
             {data.map((spotInfo) => (
               <TouchableOpacity
+                key={spotInfo.name}
                 onPress={() => navigation.navigate("SpotDetails", { spotInfo })}
                 style={{ flexDirection: "row" }}
               >

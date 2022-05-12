@@ -5,7 +5,7 @@ import React, {
   useContext,
   useRef,
 } from "react";
-import { Dimensions, View } from "react-native";
+import { Dimensions, Touchable, TouchableOpacity, View } from "react-native";
 import Wrapper from "../common/Wrapper.styled.js";
 import StyledText from "../common/Text.styled.js";
 import CurrentTripCard from "../components/CurrentTripCard.js";
@@ -18,9 +18,11 @@ import * as Permissions from "expo-permissions";
 import SpotsRecommCard from "../components/SpotsRecommCard.js";
 import NewTripButton from "../components/NewTripButton.js";
 import { auth, db } from "../utils/firebase/config.js";
-import CameraScreen from "./CameraScreen.js";
+import { FontAwesome5 } from "@expo/vector-icons";
+import { ThemeContext } from "styled-components";
 const Tab = createBottomTabNavigator();
 const HomeScreen = ({ navigation }) => {
+  const theme = useContext(ThemeContext);
   const windowWidth = Dimensions.get("window").width;
   const windowHeight = Dimensions.get("window").height;
   let camera = useRef(null);
@@ -50,13 +52,38 @@ const HomeScreen = ({ navigation }) => {
       }
     });
   }, []);
+  useLayoutEffect(() => {
+    navigation.setOptions({
+      headerShadowVisible: false,
+    });
+  }, [navigation]);
   return (
     <>
       <Wrapper homeScreen style={{ paddingHorizontal: 20 }}>
         <View>
-          <StyledText family="Poppins" weight="medium" style={{ fontSize: 24 }}>
-            Hi {user?.name ? user?.name : "there"} 👋
-          </StyledText>
+          <View
+            style={{
+              margin: 5,
+              flexDirection: "row",
+              alignItems: "center",
+              justifyContent: "space-between",
+            }}
+          >
+            <StyledText
+              family="Poppins"
+              weight="medium"
+              style={{ fontSize: 24 }}
+            >
+              Hi {user?.name ? user?.name : "there"} 👋
+            </StyledText>
+            <TouchableOpacity onPress={() => navigation.navigate("Profile")}>
+              <FontAwesome5
+                name="user-circle"
+                size={26}
+                color={theme.colors.darkGray}
+              />
+            </TouchableOpacity>
+          </View>
           {tripInfo !== null && <CurrentTripCard tripInfo={tripInfo} />}
           <SpotsRecommCard />
 
